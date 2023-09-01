@@ -89,6 +89,3 @@ alias cp='cp -i'
 alias ln='ln -i'
 alias mv='mv -i'
 alias rm='rm -i'
-
-## Proot env
-alias nethunter='proot-distro login nethunter'
