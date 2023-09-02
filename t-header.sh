@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo 'Installing reqs...'
+apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch ruby2 -y && gem install lolcat*.gem
 if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
