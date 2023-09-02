@@ -1,10 +1,11 @@
 #!/bin/bash
+
 if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
 	chsh -s bash;
-	termux-reload-settings;
 	kill -9 $PPID
+	export PREFIX=/usr
 fi
 spin () {
 
@@ -31,17 +32,12 @@ echo "";
 COPY_FILES() {
 	version=`getprop ro.build.version.release | sed -e 's/\.//g' | cut -c1`
 	version1=`getprop ro.build.version.release`
-        rm -rf ~/.draw ~/.termux/*
+        rm -rf ~/.draw
         cp .object/.draw .object/.bashrc ~/;
-	rm -rf ~/.termux;
-        mkdir -p ~/.termux/;
         if [[ "$version" -le 7 ]]; then
                 rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
-                cp .object/color*.* .object/font*.* ~/.termux/
-                cp .object/termux.properties2 ~/.termux/termux.properties
                 cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
 		cp .banner.sh ~/
-		termux-reload-settings
 
         else
                 rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
@@ -52,12 +48,9 @@ COPY_FILES() {
 		termux-reload-settings
         fi
 	if [[ "$version1" -eq 10 ]] || [[ "$version1" -eq 11 ]]; then
-		rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
-		cp .object/color*.* .object/font*.* ~/.termux/;
-		cp .object/termux.properties ~/.termux/
+		rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf 	
 		cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
 		cp .banner.sh ~/
-		termux-reload-settings
 	fi
 }
 rubygem_d () {
@@ -76,9 +69,8 @@ echo "";
 echo -e "\e[1;34m[*] \e[32minstall packages....\e[0m";
 echo "";
 (apt update -y && apt upgrade -y) &> /dev/null;
-apt install figlet pv ncurses-utils binutils coreutils wget git zsh termux-api procps gawk exa termux-tools -y &> /dev/null;
+apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa -y &> /dev/null;
 rubygem_d &> /dev/null
-termux-wake-lock;
 if [ -e $PREFIX/share/figlet/Remo773.flf ]; then
 	echo -e "\e[1;34m[*] \033[32mRemo773.flf figlet font is present\033[0m";
 	sleep 4
@@ -249,7 +241,7 @@ do
 	echo -e "\e[1;34m[*] \e[32mOh-my-zsh new setup....\e[0m";
 	echo "";
 
-	( rm -rf ~/.zshrc;git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh;cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$HOME/.zshrc";termux-wake-unlock; ) &> /dev/null & spin;
+	( rm -rf ~/.zshrc;git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh;cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$HOME/.zshrc"; ) &> /dev/null & spin;
 	chsh -s zsh;
 if [ -d $HOME/.oh-my-zsh ];
 then
