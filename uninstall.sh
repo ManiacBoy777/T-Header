@@ -1,2 +1,2 @@
 #!/bin/bash
-bash $HOME/T-Header/t-header.sh --remove && rm -drf $HOME/T-Header/ && exit
+bash $HOME/T-Header/t-header.sh --remove & rm -drf $HOME/T-Header && exit
