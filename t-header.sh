@@ -1,4 +1,6 @@
 #!/bin/bash
+su - root
+cd /root/
 echo 'Installing reqs...'
 apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch ruby2 lolcat libncurses5-dev libncursesw5-dev -y
 if [[ "$1" == "--remove" ]]; then
