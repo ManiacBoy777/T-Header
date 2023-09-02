@@ -1,1 +1,1 @@
-bash $HOME/T-Header/t-header.sh --remove && rm $HOME/T-Header/uninstall.sh && exit
+bash $HOME/T-Header/t-header.sh --remove && rm -drf $HOME/T-Header/ && exit
