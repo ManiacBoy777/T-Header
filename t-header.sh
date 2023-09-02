@@ -58,7 +58,7 @@ echo "";
 echo -e "\e[1;34m[*] \e[32minstall packages....\e[0m";
 echo "";
 (apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa -y) &> /dev/null;
-apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa -y &> /dev/null;
+apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y &> /dev/null;
 rubygem_d &> /dev/null
 if [ -e $PREFIX/share/figlet/Remo773.flf ]; then
 	echo -e "\e[1;34m[*] \033[32mRemo773.flf figlet font is present\033[0m";
@@ -177,6 +177,7 @@ else
 fi
 
 ## Safety.
+echo 'zsh >> $HOME/.bashrc'
 alias cp='cp -i'
 alias ln='ln -i'
 alias mv='mv -i'
@@ -185,6 +186,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
 ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
 cols=\$(tput cols)
 bash ~/.banner.sh \${cols} \${TNAME}
+neofetch
 EOF
 #fi
 COPY_FILES
