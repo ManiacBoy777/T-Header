@@ -50,7 +50,7 @@ esac
 
 ## Colorful output & useful aliases for 'ls' and 'grep'.
 if [ -x "/usr/bin/dircolors" ] && [ -n "/usr" ]; then
-	if [ -f "$LOCAL_PREFIX/etc/dircolors.conf" ]; then
+	if [ -f "/usr/etc/dircolors.conf" ]; then
 		eval "$(dircolors -b "/usr/etc/dircolors.conf")"
 	fi
 fi
