@@ -1,3 +1,5 @@
+su - root
+cd /root/
 apt update -y
 apt upgrade -y
 apt install figlet pv binutils coreutils wget git zsh procps gawk exa neofetch lolcat libncurses5-dev libncursesw5-dev -y
