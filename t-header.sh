@@ -2,6 +2,7 @@
 if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
+ 	cp -f /etc/skel/.bashrc ~/.bashrc
 	chsh -s bash;
 	kill -9 $PPID
 fi
