@@ -1,14 +1,11 @@
 #!/bin/bash
 su - root
 cd /root/
-echo 'Installing reqs...'
-apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch ruby2 lolcat libncurses5-dev libncursesw5-dev -y
 if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
 	chsh -s bash;
 	kill -9 $PPID
-	export PREFIX=/usr
 fi
 spin () {
 
@@ -33,13 +30,11 @@ echo "";
 
 }
 COPY_FILES() {
+	mkdir /usr/share/figlet
         rm -rf ~/.draw
         cp .object/.draw .object/.bashrc ~/;
-        cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
-	cp .banner.sh ~/
-	cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
-	cp .banner.sh ~/ 	
-	cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
+        cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/ASCII-Shadow.flf
+	cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf
 	cp .banner.sh ~/
 }
 rubygem_d () {
@@ -60,14 +55,14 @@ echo "";
 (apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y) &> /dev/null;
 apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y &> /dev/null;
 rubygem_d &> /dev/null
-if [ -e $PREFIX/share/figlet/Remo773.flf ]; then
+if [ -e /usr/share/figlet/Remo773.flf ]; then
 	echo -e "\e[1;34m[*] \033[32mRemo773.flf figlet font is present\033[0m";
 	sleep 4
 else
 wget https://raw.githubusercontent.com/remo7777/REMO773/master/Remo773.flf &> /dev/null;
 sleep 3
-cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/Remo773.flf;
-cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf;
+cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf;
+cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/ASCII-Shadow.flf;
 sleep 3
 rm Remo773.flf
 fi
@@ -190,28 +185,6 @@ neofetch
 EOF
 #fi
 COPY_FILES
-rm -f /etc/pam.d/chsh
-cat >> /etc/pam.d/chsh << EOL
-#
-# The PAM configuration file for the Shadow `chsh' service
-#
-
-# This will not allow a user to change their shell unless
-# their current one is listed in /etc/shells. This keeps
-# accounts with special shells from changing them.
-auth       sufficient   pam_shells.so
-
-# This allows root to change user shell without being
-# prompted for a password
-auth            sufficient      pam_rootok.so
-
-# The standard Unix authentication modules, used with
-# NIS (man nsswitch) as well as normal /etc/passwd and
-# /etc/shadow entries.
-@include common-auth
-@include common-account
-@include common-session
-EOL
 chsh -s zsh;
 source ~/.zshrc;
 else
