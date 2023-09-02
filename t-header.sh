@@ -185,7 +185,7 @@ neofetch
 EOF
 #fi
 COPY_FILES
-chsh -s /bin/zsh;
+chsh -s /usr/bin/zsh;
 source ~/.zshrc;
 else
 	echo -e "\033[32mHope you like my work..\033[0m"
@@ -228,7 +228,7 @@ do
 	echo "";
 
 	( rm -rf ~/.zshrc;git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh;cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$HOME/.zshrc"; ) &> /dev/null & spin;
-	chsh -s /bin/zsh;
+	chsh -s /usr/bin/zsh;
 if [ -d $HOME/.oh-my-zsh ];
 then
 	ozsh=1
