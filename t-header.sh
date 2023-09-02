@@ -1,6 +1,4 @@
 #!/bin/bash
-su - root
-cd /root/
 if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
