@@ -57,7 +57,7 @@ fi
 echo "";
 echo -e "\e[1;34m[*] \e[32minstall packages....\e[0m";
 echo "";
-(apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa -y) &> /dev/null;
+(apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y) &> /dev/null;
 apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y &> /dev/null;
 rubygem_d &> /dev/null
 if [ -e $PREFIX/share/figlet/Remo773.flf ]; then
