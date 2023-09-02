@@ -18,7 +18,7 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 ## Installation
 
 1. Run command to install
-`apt update && yes | apt upgrade && apt update && apt install git figlet pv binutils coreutils wget git zsh procps gawk exa neofetch lolcat libncurses5-dev libncursesw5-dev -y && git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/t-header.sh`
+`git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/install.sh`
 2. after complete all processing just --open new session-- or `source ~/.zshrc`
 3. to uninstall
 - bash $HOME/T-Header/uninstall.sh
