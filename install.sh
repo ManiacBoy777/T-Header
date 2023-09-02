@@ -1,3 +1,4 @@
+#!/bin/bash
 su - root
 cd /root/
 apt update -y
