@@ -1,6 +1,6 @@
 #!/bin/bash
 echo 'Installing reqs...'
-apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch ruby2 -y && gem install lolcat*.gem
+apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch ruby2 lolcat libncurses5-dev libncursesw5-dev -y
 if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
@@ -33,13 +33,10 @@ echo "";
 COPY_FILES() {
         rm -rf ~/.draw
         cp .object/.draw .object/.bashrc ~/;
-        rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
         cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
 	cp .banner.sh ~/
-        rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
 	cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
-	cp .banner.sh ~/
-	rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf 	
+	cp .banner.sh ~/ 	
 	cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
 	cp .banner.sh ~/
 }
