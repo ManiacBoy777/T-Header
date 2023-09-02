@@ -192,7 +192,6 @@ EOF
 COPY_FILES
 rm -f /etc/pam.d/chsh
 cat >> /etc/pam.d/chsh << EOL
-
 #
 # The PAM configuration file for the Shadow `chsh' service
 #
@@ -212,9 +211,7 @@ auth            sufficient      pam_rootok.so
 @include common-auth
 @include common-account
 @include common-session
-
 EOL
-
 chsh -s zsh;
 source ~/.zshrc;
 else
