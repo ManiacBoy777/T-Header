@@ -7,9 +7,9 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 
 - [x] Support for oh-my-zsh themes
 - [x] zsh-autosuggest-command plugin
-      <sup>Inline Command Autosuggestions</sup>
+-      <sup>Inline Command Autosuggestions</sup>
 - [x] zsh-syntax-highlighting plugin
-      <sup>Highlight Valid Commands while typing</sup>
+-      <sup>Highlight Valid Commands while typing</sup>
 - [x] terminal-banner
 - [x] PS1 with custom trim path indicator
 - [x] Custom prompt cursor
