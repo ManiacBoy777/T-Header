@@ -22,5 +22,5 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 3. to uninstall `bash $HOME/T-Header/uninstall.sh`
 #
 
-[!WARNING]
+> [!WARNING]
 This script has the potential for lots of bugs and is still being worked on. There may come a point where the script is completely rewritten to work better on desktop as it was originally written for the Android app Termux
