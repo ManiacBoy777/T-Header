@@ -6,4 +6,4 @@ apt upgrade -y &&
 apt install figlet pv binutils coreutils wget git zsh procps gawk exa neofetch lolcat libncurses5-dev libncursesw5-dev -y &&
 rm -f /etc/pam.d/chsh &&
 cp $HOME/T-Header/chsh /etc/pam.d/chsh &&
-bash $HOME/T-Header/t-header.sh
+bash $HOME/T-Header/t-header.sh &
