@@ -18,5 +18,5 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 
 1. paste `apt update && yes | apt upgrade && apt update && apt install git -y && git clone https://github.com/ManiacBoy777/U-Header.git && bash $HOME/T-Header/t-header.sh`
 6. after complete all processing just --open new session-- or `source ~/.zshrc`
-7. to uninstall `cd ~/T-header && bash t-header.sh --remove && exit`
+7. to uninstall `bash $HOME/T-header/uninstall.sh`
 #
