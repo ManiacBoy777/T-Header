@@ -30,28 +30,17 @@ echo "";
 
 }
 COPY_FILES() {
-	version=`getprop ro.build.version.release | sed -e 's/\.//g' | cut -c1`
-	version1=`getprop ro.build.version.release`
         rm -rf ~/.draw
         cp .object/.draw .object/.bashrc ~/;
-        if [[ "$version" -le 7 ]]; then
-                rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
-                cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
-		cp .banner.sh ~/
-
-        else
-                rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
-                cp .object/color*.* .object/font*.* ~/.termux/;
-                cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
-                cp .object/termux.properties ~/.termux/
-		cp .banner.sh ~/
-		termux-reload-settings
-        fi
-	if [[ "$version1" -eq 10 ]] || [[ "$version1" -eq 11 ]]; then
-		rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf 	
-		cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
-		cp .banner.sh ~/
-	fi
+        rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
+        cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
+	cp .banner.sh ~/
+        rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
+        cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
+	cp .banner.sh ~/
+	rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf 	
+	cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
+	cp .banner.sh ~/
 }
 rubygem_d () {
 dpkg -s ruby2 &> /dev/null
@@ -137,7 +126,7 @@ echo "";
 #echo -e '\e[0;35m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\e[00m';
 echo "";
 echo -e "
-\033[0;31m┌─[\033[1;34m$TNAME\033[1;33m@\033[1;36mtermux\033[0;31m]─[\033[0;32m~${PWD/#"$HOME"}\033[0;31m]
+\033[0;31m┌─[\033[1;34m$TNAME\033[1;33m@\033[1;36m$HOSTNAME\033[0;31m]─[\033[0;32m~${PWD/#"$HOME"}\033[0;31m]
 \033[0;31m└──╼ \e[1;31m❯\e[1;34m❯\e[1;90m❯\033[0m "
 
 tput setaf 3
@@ -167,7 +156,7 @@ TNAME="$PROC"
 setopt prompt_subst
 
 PROMPT=$'
-%{\e[0;31m%}┌─[%{\e[1;34m%}%B%{\${TNAME}%}%{\e[1;33m%}@%{\e[1;36m%}termux%b%{\e[0;31m%}]─[%{\e[0;32m%}%(4~|/%2~|%~)%{\e[0;31m%}]%b
+%{\e[0;31m%}┌─[%{\e[1;34m%}%B%{\${TNAME}%}%{\e[1;33m%}@%{\e[1;36m%}$HOSTNAME%b%{\e[0;31m%}]─[%{\e[0;32m%}%(4~|/%2~|%~)%{\e[0;31m%}]%b
 %{\e[0;31m%}└──╼ %{\e[1;31m%}%B❯%{\e[1;34m%}❯%{\e[1;90m%}❯%{\e[0m%}%b '
 
 ## Replace 'ls' with 'exa' (if available) + some aliases.
