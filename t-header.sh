@@ -183,7 +183,7 @@ neofetch
 EOF
 #fi
 COPY_FILES
-chsh -s zsh;
+chsh -s /usr/bin/zsh;
 source ~/.zshrc;
 else
 	echo -e "\033[32mHope you like my work..\033[0m"
