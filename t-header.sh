@@ -5,6 +5,7 @@ if [[ "$1" == "--remove" ]]; then
  	cp -f /etc/skel/.bashrc ~/.bashrc
 	chsh -s bash;
 	kill -9 $PPID
+ 	exit
 fi
 spin () {
 
