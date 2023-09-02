@@ -33,13 +33,13 @@ COPY_FILES() {
         rm -rf ~/.draw
         cp .object/.draw .object/.bashrc ~/;
         rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
-        cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
+        cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
 	cp .banner.sh ~/
         rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf
-        cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
+	cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
 	cp .banner.sh ~/
 	rm -rf $PREFIX/share/figlet/ASCII-Shadow.flf 	
-	cp .object/ASCII-Shadow.flf $PREFIX/share/figlet/
+	cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf
 	cp .banner.sh ~/
 }
 rubygem_d () {
@@ -66,8 +66,8 @@ if [ -e $PREFIX/share/figlet/Remo773.flf ]; then
 else
 wget https://raw.githubusercontent.com/remo7777/REMO773/master/Remo773.flf &> /dev/null;
 sleep 3
-cp Remo773.flf $PREFIX/share/figlet/Remo773.flf;
-cp ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf;
+cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/Remo773.flf;
+cp $HOME/T-Header/ASCII-Shadow.flf $PREFIX/share/figlet/ASCII-Shadow.flf;
 sleep 3
 rm Remo773.flf
 fi
@@ -114,11 +114,11 @@ else
 fi
 done
 clear
-#echo "NAME=$PROC" > ~/.username
+#echo "NAME=$PROC" > $HOME/.username
 TNAME="$PROC";
 col=$(tput cols)
 echo ;
-#figlet -f ASCII-Shadow "$PROC" | lolcat;
+#figlet -f $HOME/T-Header/ASCII-Shadow.flf "$PROC" | lolcat;
 bash ~/T-Header/.banner.sh ${col} ${TNAME}
 echo "";
 #echo -e '\e[0;35m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\e[00m';
@@ -147,7 +147,7 @@ cat >> ~/.zshrc <<-EOF
 tput cnorm
 clear
 ## terminal banner
-#figlet -f ASCII-Shadow.flf "$PROC" | lolcat;
+#$HOME/T-Header/ASCII-Shadow.flf "$PROC" | lolcat;
 echo
 ## cursor
 printf '\e[4 q'
@@ -197,7 +197,7 @@ exit
 }
 
 clear;
-echo -e "\033[31m$(figlet -f Remo773 "T- Header")\e[0m"
+echo -e "\033[31m$(figlet -f $HOME/T-Header/ASCII-Shadow.flf "T- Header")\e[0m"
 echo -e "\e[1;32m
 +----------------------------------*/
 Remo773 : (\e[33m14.4.2021\e[32m)
