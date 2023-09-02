@@ -228,7 +228,7 @@ do
 	echo "";
 
 	( rm -rf ~/.zshrc;git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh;cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$HOME/.zshrc"; ) &> /dev/null & spin;
-	chsh -s zsh;
+	chsh -s /bin/zsh;
 if [ -d $HOME/.oh-my-zsh ];
 then
 	ozsh=1
