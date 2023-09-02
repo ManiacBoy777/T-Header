@@ -18,7 +18,7 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 ## Installation
 
 1. Run command to install
-`git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/install.sh`
+`apt update -y && apt upgrade -y && apt install git && git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/install.sh`
 2. after complete all processing just --open new session-- or `source ~/.zshrc`
 3. to uninstall
 - bash $HOME/T-Header/uninstall.sh
