@@ -3,7 +3,7 @@ if [[ "$1" == "--remove" ]]; then
 	rm -rf ~/.oh-my-zsh ~/.plugins;
 	rm -rf ~/.bashrc;
  	cp -f /etc/skel/.bashrc ~/.bashrc
-	chsh -s /usr/bin/bash;
+	chsh -s /bin/bash;
 	kill -9 $PPID
  	exit
 fi
@@ -172,7 +172,6 @@ else
 fi
 
 ## Safety.
-echo 'zsh >> $HOME/.bashrc'
 alias cp='cp -i'
 alias ln='ln -i'
 alias mv='mv -i'
