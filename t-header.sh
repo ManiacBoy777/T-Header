@@ -2,11 +2,11 @@
 if [[ "$1" == "--remove" ]]; then
 	rm -rf $HOME/.oh-my-zsh $HOME/.plugins;
 	rm -rf $HOME/.bashrc;
- 	rm -rf $HOME/.banner.sh
-  	rm -rf $HOME/.draw
-   	rm -rf $HOME/.draw.sh
-    	rm -rf $HOME/.zshrc
-     	apt remove zsh
+ 	rm -rf $HOME/.banner.sh;
+  	rm -rf $HOME/.draw;
+   	rm -rf $HOME/.draw.sh;
+    	rm -rf $HOME/.zshrc;
+     	apt remove zsh -y;
  	cp -f /etc/skel/.bashrc $HOME/.bashrc;
 	chsh -s /bin/bash;
 	kill -9 $PPID &>/dev/null
@@ -143,7 +143,7 @@ if [[ ${PROC32} == [Y/y] ]]; then
 #if [ -e $HOME/.zshrc ]; then
 #	rm -rf ~/.zshrc
 #else
-cat >> ~/.zshrc <<EOF
+cat >> $HOME/.zshrc <<-EOF
 tput cnorm
 clear
 ## terminal banner
