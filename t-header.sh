@@ -138,7 +138,7 @@ if [[ ${PROC32} == [Y/y] ]]; then
 #if [ -e $HOME/.zshrc ]; then
 #	rm -rf ~/.zshrc
 #else
-cat >> ~/.zshrc <<-EOF
+cat >> ~/.zshrc <<EOF
 tput cnorm
 clear
 ## terminal banner
@@ -181,6 +181,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
 cols=\$(tput cols)
 bash ~/.banner.sh \${cols} \${TNAME}
 neofetch
+
 EOF
 #fi
 COPY_FILES
