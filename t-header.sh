@@ -186,6 +186,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
 cols=\$(tput cols)
 bash ~/.banner.sh \${cols} \${TNAME}
 neofetch
+alias theader-uninstall='bash $HOME/T-Header/uninstall.sh'
+alias theader-reinstall='bash $HOME/T-Header/uninstall.sh && cd && apt update -y && apt upgrade -y && apt install git -y && rm -rdf $HOME/T-Header && git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/install.sh'
 
 EOF
 #fi
