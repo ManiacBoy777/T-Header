@@ -56,7 +56,7 @@ fi
 }
 # note this is only print 7 charecters
 echo "";
-echo -e "\e[1;34m[*] \e[32minstall packages....\e[0m";
+echo -e "\e[1;34m[✓] \e[32mFinishing install \e[0m";
 echo "";
 (apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y) &> /dev/null;
 apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y &> /dev/null;
