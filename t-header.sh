@@ -9,6 +9,7 @@ if [[ "$1" == "--remove" ]]; then
      	apt remove zsh -y;
  	cp -f /etc/skel/.bashrc $HOME/.bashrc;
 	chsh -s /bin/bash;
+ rm -drf $HOME/T-Header
 	kill -9 $PPID &>/dev/null
  	exit
 fi
