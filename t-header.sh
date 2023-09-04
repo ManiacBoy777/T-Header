@@ -58,8 +58,8 @@ fi
 echo "";
 echo -e "\e[1;34m[✓] \e[32mFinishing install \e[0m";
 echo "";
-(apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y) &> /dev/null;
-apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch -y &> /dev/null;
+(apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch python 3 -y) &> /dev/null;
+apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch python3 -y &> /dev/null;
 rubygem_d &> /dev/null
 if [ -e /usr/share/figlet/Remo773.flf ]; then
 	echo -e "\e[1;34m[*] \033[32mRemo773.flf figlet font is present\033[0m";
@@ -187,8 +187,10 @@ ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
 cols=\$(tput cols)
 bash ~/.banner.sh \${cols} \${TNAME}
 neofetch
+alias theader-rename='python $HOME/T-Header/rename.py'
 alias theader-uninstall='bash $HOME/T-Header/uninstall.sh'
 alias theader-reinstall='bash $HOME/T-Header/uninstall.sh && cd && apt update -y && apt upgrade -y && apt install git -y && rm -rdf $HOME/T-Header && git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/install.sh'
+alias python='/usr/bin/python3'
 
 EOF
 #fi
