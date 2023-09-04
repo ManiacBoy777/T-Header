@@ -182,7 +182,7 @@ alias ln='ln -i'
 alias mv='mv -i'
 alias rm='rm -i'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
-#ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
+ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
 cols=\$(tput cols)
 bash ~/.banner.sh \${cols} \${TNAME}
 neofetch
