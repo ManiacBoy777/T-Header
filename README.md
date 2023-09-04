@@ -21,9 +21,10 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 > This should be run from `root` account. This script was originally created for Termux which runs in a type of proot. This version was modified and tested in a chroot enviroment on WSL > 
 > It has not been tested on a normal user account and may need futher testing to do so. This is planned for a later date.
 
-### 1. Run command to install
+##### 1. Run command to install
 `cd && apt update -y && apt upgrade -y && apt install git -y && rm -rdf $HOME/T-Header && git clone https://github.com/ManiacBoy777/T-Header.git && bash $HOME/T-Header/install.sh`
-2. after complete all processing just open new terminal session or run `source ~/.zshrc`
+##### 2. after complete all processing just open new terminal session or run 
+`source ~/.zshrc`
 
 ## Uninstallation
 
