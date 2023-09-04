@@ -1,6 +1,9 @@
 #!/bin/bash
+echo "";
+echo -e "\e[1;34m[ ] \e[32mInstalling packages \e[0m";
+echo "";
 su - root &
-cd /root/ &
+cd $HOME/ &
 apt update -y &&
 apt upgrade -y &&
 apt install figlet pv binutils coreutils wget git zsh procps gawk exa neofetch lolcat libncurses5-dev libncursesw5-dev -y &&
