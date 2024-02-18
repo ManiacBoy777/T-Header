@@ -32,11 +32,21 @@ source ~/.zshrc
 
 ## Uninstallation
 
-type ```theader-uninstall``` from zsh shell or run ```bash $HOME/T-Header/uninstall.sh```
+type
+```
+theader-uninstall
+```
+from zsh shell or run 
+```
+bash $HOME/T-Header/uninstall.sh
+```
 
 ## Reinstallation
 
-If you think something went wrong during install and want to try again try ```theader-reinstall```
+If you think something went wrong during install and want to try again try
+```
+theader-reinstall
+```
 
 > [!WARNING]
 > This script has the potential for lots of bugs and is still being worked on. There may come a point where the script is completely rewritten to work better on desktop as it was originally written for the Android app Termux.
