@@ -19,13 +19,14 @@ sudo_if_possible() {
 
 sudo_if_possible apt update -y
 sudo_if_possible apt upgrade -y
-sudo_if_possible apt install git -y
+sudo_if_possible apt install figlet pv binutils coreutils wget git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev -y
 sudo_if_possible rm -rdf $HOME/T-Header
 sudo_if_possible git clone https://github.com/ManiacBoy777/T-Header.git $HOME/T-Header
 
 cd $HOME/ &
-echo $CD
-echo "";
-echo -e "\e[1;34m[ ] \e[32mInstalling packages \e[0m";
-(sudo_if_possible apt update -y && sudo_if_possible apt upgrade -y && sudo_if_possible apt install figlet pv binutils coreutils wget git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev -y) &> /dev/null; 
-sudo_if_possible rm -f /etc/pam.d/chsh && sudo_if_possible cp $HOME/T-Header/chsh /etc/pam.d/chsh && sudo_if_possible chmod +x $HOME/T-Header/uninstall.sh && sudo_if_possible chmod +x $HOME/T-Header/rename.py && sudo_if_possible bash $HOME/T-Header/t-header.sh
+
+sudo_if_possible rm -f /etc/pam.d/chsh
+sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" /etc/pam.d/chsh
+sudo_if_possible chmod +x $HOME/T-Header/uninstall.sh
+sudo_if_possible chmod +x $HOME/T-Header/rename.py
+sudo_if_possible bash $HOME/T-Header/t-header.sh
