@@ -18,17 +18,17 @@ sudo_if_possible() {
 }
 
 if [[ "$1" == "--remove" ]]; then
- rm -rf $HOME/.oh-my-zsh $HOME/.plugins;
-	rm -rf $HOME/.bashrc;
- 	rm -rf $HOME/.banner.sh;
-  	rm -rf $HOME/.draw;
-   	rm -rf $HOME/.draw.sh;
-    	rm -rf $HOME/.zshrc;
-     	apt remove zsh -y;
+ sudo_if_possible rm -rf $HOME/.oh-my-zsh $HOME/.plugins;
+	sudo_if_possible rm -rf $HOME/.bashrc;
+ 	sudo_if_possible rm -rf $HOME/.banner.sh;
+  	sudo_if_possible rm -rf $HOME/.draw;
+   	sudo_if_possible rm -rf $HOME/.draw.sh;
+    	sudo_if_possible rm -rf $HOME/.zshrc;
+     	sudo_if_possible apt remove zsh -y;
  	cp -f /etc/skel/.bashrc $HOME/.bashrc;
-	chsh -s /bin/bash;
- rm -drf $HOME/T-Header
-	kill -9 $PPID &>/dev/null
+	sudo_if_possible chsh -s /bin/bash;
+ sudo_if_possible rm -drf $HOME/T-Header
+	sudo_if_possible kill -9 $PPID &>/dev/null
  	exit
 fi
 spin () {
@@ -37,7 +37,7 @@ local pid=$!
 local delay=0.25
 local spinner=( '█■■■■' '■█■■■' '■■█■■' '■■■█■' '■■■■█' )
 
-while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+while [ "$(sudo_if_possible ps a | awk '{print $1}' | grep $pid)" ]; do
 
 for i in "${spinner[@]}"
 do
@@ -54,21 +54,21 @@ echo "";
 
 }
 COPY_FILES() {
-	mkdir /usr/share/figlet
-        rm -rf ~/.draw
-        cp .object/.draw .object/.bashrc ~/;
-        cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/ASCII-Shadow.flf
-	cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf
-	cp .banner.sh ~/
+	sudo_if_possible mkdir /usr/share/figlet
+        sudo_if_possible rm -rf ~/.draw
+        sudo_if_possible cp .object/.draw .object/.bashrc ~/;
+        sudo_if_possible cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/ASCII-Shadow.flf
+	sudo_if_possible cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf
+	sudo_if_possible cp .banner.sh ~/
 }
 rubygem_d () {
-dpkg -s ruby2 &> /dev/null
+sudo_if_possible dpkg -s ruby2 &> /dev/null
 if [[ $? -eq 0 ]]; then
-	apt install --reinstall ruby2 -y;
-	gem install lolcat*.gem &> /dev/null
+	sudo_if_possible apt install --reinstall ruby2 -y;
+	sudo_if_possible gem install lolcat*.gem &> /dev/null
 else
-	apt install --reinstall ruby -y;
-	gem install lolcat*.gem &> /dev/null
+	sudo_if_possible apt install --reinstall ruby -y;
+	sudo_if_possible gem install lolcat*.gem &> /dev/null
 fi
 	
 }
@@ -76,17 +76,17 @@ fi
 echo "";
 echo -e "\e[1;34m[✓] \e[32mFinishing install \e[0m";
 echo "";
-(apt update -y && apt upgrade -y && apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch python 3 -y) &> /dev/null;
-apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch python3 -y &> /dev/null;
-rubygem_d &> /dev/null
+(sudo_if_possible apt update -y && sudo_if_possible apt upgrade -y && sudo_if_possible apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch python 3 -y) &> /dev/null;
+sudo_if_possible apt install figlet pv ncurses-utils binutils coreutils wget git zsh procps gawk exa neofetch python3 -y &> /dev/null;
+sudo_if_possible rubygem_d &> /dev/null
 if [ -e /usr/share/figlet/Remo773.flf ]; then
 	echo -e "\e[1;34m[*] \033[32mRemo773.flf figlet font is present\033[0m";
 	sleep 4
 else
-wget https://raw.githubusercontent.com/remo7777/REMO773/master/Remo773.flf &> /dev/null;
+sudo_if_possible wget https://raw.githubusercontent.com/remo7777/REMO773/master/Remo773.flf &> /dev/null;
 sleep 3
-cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf;
-cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/ASCII-Shadow.flf;
+sudo_if_possible cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf;
+sudo_if_possible cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/ASCII-Shadow.flf;
 sleep 3
 rm Remo773.flf
 fi
@@ -153,7 +153,7 @@ read -p  "Do you want to setup this ? (y/n) " PROC32
 tput sgr 0
 if [[ ${PROC32} == [Y/y] ]]; then
 	if [ -e $HOME/t-header.txt ]; then
-		rm $HOME/t-header.txt;
+		sudo_if_possible rm $HOME/t-header.txt;
 	fi
 
 	if [ -d $HOME/T-Header ]; then
@@ -162,7 +162,7 @@ if [[ ${PROC32} == [Y/y] ]]; then
 #if [ -e $HOME/.zshrc ]; then
 #	rm -rf ~/.zshrc
 #else
-cat >> $HOME/.zshrc <<-EOF
+sudo_if_possible cat >> $HOME/.zshrc <<-EOF
 tput cnorm
 clear
 ## terminal banner
@@ -213,7 +213,7 @@ alias python='/usr/bin/python3'
 EOF
 #fi
 COPY_FILES
-chsh -s /usr/bin/zsh;
+sudo_if_possible chsh -s /usr/bin/zsh;
 source ~/.zshrc;
 else
 	echo -e "\033[32mHope you like my work..\033[0m"
@@ -243,10 +243,10 @@ if [[ ${PROC33} == [Y/y] ]]; then
 
 ozsh=0
 if [ -d $HOME/.oh-my-zsh ]; then
-	(rm -rf $HOME/.oh-my-zsh/) &> /dev/null
-	(rm $HOME/.zshrc) &> /dev/null
+	(sudo_if_possible rm -rf $HOME/.oh-my-zsh/) &> /dev/null
+	(sudo_if_possible rm $HOME/.zshrc) &> /dev/null
 elif [ -d $HOME/.zsh ]; then
-	(rm -rf $HOME/.zsh) &> /dev/null
+	(sudo_if_possible rm -rf $HOME/.zsh) &> /dev/null
 else
 	echo -e "\e[1;34m[*] \e[32mYou hvnt oh-my-zsh...\e[0m";
 fi
@@ -255,8 +255,8 @@ do
 	echo -e "\e[1;34m[*] \e[32mOh-my-zsh new setup....\e[0m";
 	echo "";
 
-	( rm -rf ~/.zshrc;git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh;cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$HOME/.zshrc"; ) &> /dev/null & spin;
-	chsh -s /usr/bin/zsh;
+	( sudo_if_possible rm -rf ~/.zshrc;sudo_if_possible git clone https://github.com/ohmyzsh/ohmyzsh.git $HOME/.oh-my-zsh;cp "$HOME/.oh-my-zsh/templates/zshrc.zsh-template" "$HOME/.zshrc"; ) &> /dev/null & spin;
+	sudo_if_possible chsh -s /usr/bin/zsh;
 if [ -d $HOME/.oh-my-zsh ];
 then
 	ozsh=1
@@ -269,15 +269,15 @@ done
 echo -e "\e[1;34m[*] \e[32mZsh-autosuggestion plugins setup..\e[0m";
 
 zshau=0
-(rm -rf ~/.plugins) &> /dev/null
+(sudo_if_possible rm -rf ~/.plugins) &> /dev/null
 
-mkdir -p ~/.plugins/zsh-autosuggestions
-mkdir -p ~/.plugins/zsh-syntax-highlighting
+sudo_if_possible mkdir -p ~/.plugins/zsh-autosuggestions
+sudo_if_possible mkdir -p ~/.plugins/zsh-syntax-highlighting
 #cd $HOME/.plugins/
 
 while [ $zshau = 0 ];
 do
-	( git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.plugins/zsh-autosuggestions; echo "source ~/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc; ) &> /dev/null & spin
+	( sudo_if_possible git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.plugins/zsh-autosuggestions; echo "source ~/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> $HOME/.zshrc; ) &> /dev/null & spin
 	if [ -d $HOME/.plugins/zsh-autosuggestions ];
 then
 	zshau=1
@@ -295,7 +295,7 @@ zshsyx=0
 while [ $zshsyx = 0 ];
 do
 echo -e "\e[1;34m[*] \e[32mZsh-syntax-highlighter setup....\e[0m";
-	( git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.plugins/zsh-syntax-highlighting; echo "source ~/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc; ) &> /dev/null & spin
+	( sudo_if_possible sudo_if_possible git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.plugins/zsh-syntax-highlighting; echo "source ~/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> $HOME/.zshrc; ) &> /dev/null & spin
 
 if [ -d $HOME/.plugins/zsh-syntax-highlighting ];then
 	zshsyx=1
