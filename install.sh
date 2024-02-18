@@ -19,7 +19,7 @@ sudo_if_possible() {
 
 sudo_if_possible apt update -y
 sudo_if_possible apt upgrade -y
-sudo_if_possible apt install figlet pv binutils coreutils wget git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev -y
+sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev -y
 sudo_if_possible rm -rdf $HOME/T-Header
 sudo_if_possible git clone https://github.com/ManiacBoy777/T-Header.git $HOME/T-Header
 
