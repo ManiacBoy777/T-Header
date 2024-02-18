@@ -25,7 +25,7 @@ if [[ "$1" == "--remove" ]]; then
    	sudo_if_possible rm -rf $HOME/.draw.sh;
     	sudo_if_possible rm -rf $HOME/.zshrc;
      	sudo_if_possible apt remove zsh -y;
- 	cp -f /etc/skel/.bashrc $HOME/.bashrc;
+ 	sudo_if_possible cp -f /etc/skel/.bashrc $HOME/.bashrc;
 	sudo_if_possible chsh -s /bin/bash;
  sudo_if_possible rm -drf $HOME/T-Header
 	sudo_if_possible kill -9 $PPID &>/dev/null
