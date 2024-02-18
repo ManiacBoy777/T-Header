@@ -1,4 +1,10 @@
 #!/bin/bash
+apt update -y
+apt upgrade -y
+apt install git -y
+rm -rdf $HOME/T-Header
+git clone https://github.com/ManiacBoy777/T-Header.git
+
 su - root & 
 cd $HOME/ &
 
