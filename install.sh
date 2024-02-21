@@ -40,7 +40,9 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
 
 #name prompt
-
+echo
+echo
+echo
 echo -n "Enter name:"; read PROC
 echo
 echo "'$PROC' will be displayed at the top of every new terminal"
