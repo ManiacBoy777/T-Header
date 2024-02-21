@@ -39,6 +39,15 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.object/.draw" -o $HOME/.draw
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.object/.bashrc" -o $HOME/.bashrc
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
+
+#name prompt
+
+echo -n "Enter name:"; read PROC
+echo "$PROC will be displayed at the top of every new terminal
+echo "This also replaces your username in the PS1 prompt.
+echo "If you'd like to change this:"
+echo "Edit the $HOME/.zshrc file and replace the value in quotes at 'TNAME'"
+
 #add lines to .zshrc
  
 sudo_if_possible cat >> $HOME/.zshrc <<-EOF
