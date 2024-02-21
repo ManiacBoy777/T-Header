@@ -19,7 +19,7 @@ sudo_if_possible() {
 #install
 sudo_if_possible apt update -y
 sudo_if_possible apt upgrade -y
-sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby -y
+sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
 sudo_if_possible gem install lolcat
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
@@ -29,10 +29,9 @@ sudo_if_possible rm -f /etc/pam.d/chsh
 
 
 #git clone
-sudo_if_possible git clone https://github.com/ManiacBoy777/T-Header.git $HOME/T-Header
 sudo_if_possible git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.plugins/zsh-autosuggestions
 sudo_if_possible git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.plugins/zsh-syntax-highlighting
-
+sudo_if_possible git clone https://github.com/Aloxaf/fzf-tab.git $HOME/.plugins/fzf-tab
 #copy files
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
@@ -55,6 +54,7 @@ echo "Edit the $HOME/.zshrc file and replace the value in quotes at 'TNAME'"
 #add lines to .zshrc
  
 sudo_if_possible cat >> $HOME/.zshrc <<-EOF
+source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
 source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
