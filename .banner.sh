@@ -22,7 +22,7 @@ echo "│${var3}│"
 done
 echo "└${var2}┘"
 PUT 4 0
-figlet -c -f $HOME/T-Header/ASCII-Shadow.flf -w ${1} "${2}" | lolcat -t
+figlet -c -f ASCII-Shadow -w ${1} "${2}" | lolcat -t
 PUT 3 0
 echo -e "\033[35;1m"
 #tput setaf 5
