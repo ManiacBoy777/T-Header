@@ -4,7 +4,7 @@ sudo_if_possible() {
   # Check if sudo is available
   if command -v sudo >/dev/null 2>&1; then
     # Check if the user is not root
-    if [ "$EUID" -ne 0 ]; then
+    if [[ "$EUID" -ne 0 ]]; then
       # Run the command with sudo
       sudo "$@"
     else
