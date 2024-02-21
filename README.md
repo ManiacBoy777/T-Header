@@ -23,7 +23,7 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 
 ##### 1. Run command to install
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
 ```
 ##### 2. after complete all processing just open new terminal session or run 
 ```
