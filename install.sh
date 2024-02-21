@@ -43,7 +43,7 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 echo
 echo
 echo
-echo -n "Enter name:"; read PROC
+read -p "Enter name: " PROC
 echo
 echo "'$PROC' will be displayed at the top of every new terminal"
 echo 
