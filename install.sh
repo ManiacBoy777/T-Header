@@ -38,7 +38,7 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.object/.draw" -o $HOME/.draw
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.object/.bashrc" -o $HOME/.bashrc
-
+sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
 #add lines to .zshrc
  
 sudo_if_possible cat >> $HOME/.zshrc <<-EOF
