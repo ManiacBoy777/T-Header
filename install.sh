@@ -106,4 +106,8 @@ alias python='/usr/bin/python3'
 EOF
 
 echo Complete!
+echo
+echo "Please wait for new terminal session to start"
+echo
+echo "The first time might take a second"
 zsh
