@@ -21,7 +21,7 @@ sudo_if_possible apt update -y
 sudo_if_possible apt upgrade -y
 sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby -y
 sudo_if_possible gem install lolcat
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 #remove existing
 sudo_if_possible rm -rdf $HOME/T-Header
