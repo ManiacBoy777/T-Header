@@ -61,17 +61,6 @@ COPY_FILES() {
 	sudo_if_possible cp $HOME/T-Header/ASCII-Shadow.flf /usr/share/figlet/Remo773.flf
 	sudo_if_possible cp .banner.sh ~/
 }
-rubygem_d () {
-sudo_if_possible dpkg -s ruby2 &> /dev/null
-if [[ $? -eq 0 ]]; then
-	sudo_if_possible apt install --reinstall ruby2 -y;
-	sudo_if_possible gem install lolcat*.gem &> /dev/null
-else
-	sudo_if_possible apt install --reinstall ruby -y;
-	sudo_if_possible gem install lolcat*.gem &> /dev/null
-fi
-	
-}
 # note this is only print 7 charecters
 echo "";
 echo -e "\e[1;34m[✓] \e[32mFinishing install \e[0m";
@@ -107,7 +96,7 @@ while [ $ok = 0 ];
 do
 	echo ""
 tput setaf 3
-read -p "Pleas enter Name : " PROC
+read -p "Please enter Name : " PROC
 tput sgr 0
 if [[ ${#PROC} -gt 8 ]]; then
 	echo -e "\e[1;34m[*] \033[32mToo long  characters You have input...\033[0m"
@@ -222,7 +211,7 @@ exit
 }
 
 clear;
-echo -e "\033[31m$(figlet -f $HOME/T-Header/ASCII-Shadow.flf "T- Header")\e[0m"
+echo -e "\033[31m$(figlet -f $HOME/T-Header/ASCII-Shadow.flf "T-Header")\e[0m"
 echo -e "\e[1;32m
 +----------------------------------*/
 Remo773 : (\e[33m14.4.2021\e[32m)
