@@ -43,9 +43,13 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 #name prompt
 
 echo -n "Enter name:"; read PROC
-echo "$PROC will be displayed at the top of every new terminal
-echo "This also replaces your username in the PS1 prompt.
+echo
+echo "'$PROC' will be displayed at the top of every new terminal"
+echo 
+echo "This also replaces your username in the PS1 prompt."
+echo
 echo "If you'd like to change this:"
+echo
 echo "Edit the $HOME/.zshrc file and replace the value in quotes at 'TNAME'"
 
 #add lines to .zshrc
@@ -102,3 +106,4 @@ alias python='/usr/bin/python3'
 EOF
 
 echo Complete!
+zsh
