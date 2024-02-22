@@ -40,7 +40,10 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.draw" -o $HOME/.draw
 #sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.bashrc" -o $HOME/.bashrc
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
-
+sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh" -o /usr/bin/theader-rename
+sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh" -o /usr/bin/theader-uninstall
+chmod +x /usr/bin/theader-rename
+chmod +x /usr/bin/theader-uninstall
 #name prompt
 echo
 echo
@@ -94,8 +97,6 @@ else
         alias ll.='ls --color=auto -Fhl -d .*'
 fi
 
-alias theader-rename="bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh)""
-alias theader-uninstall="bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh)""
 
 ## Safety.
 alias cp='cp -i'
@@ -107,7 +108,7 @@ alias rm='rm -i'
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
 ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
 cols=\$(tput cols)
-bash ~/.banner.sh \${cols} \${TNAME}
+bash $HOME/.banner.sh \${cols} \${TNAME}
 neofetch
 alias python='/usr/bin/python3'
 
