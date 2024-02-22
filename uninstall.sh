@@ -17,10 +17,10 @@ sudo_if_possible() {
   fi
 }
 
-sudo_if_possible rm -rdf $HOME/.draw
-sudo_if_possible rm -rdf $HOME/.bashrc
-sudo_if_possible rm -rdf $HOME/.banner.sh
+sudo_if_possible rm -f $HOME/.draw
+sudo_if_possible rm -f $HOME/.bashrc
+sudo_if_possible rm -f $HOME/.banner.sh
 sudo_if_possible rm -rdf $HOME/.plugins
 sudo_if_possible rm -rdf $HOME/.oh-my-zsh
-sudo_if_possible rm -rdf $HOME/.zshrc
-sudo_if_possible rm -rdf $HOME/.zsh_history
+sudo_if_possible rm -f $HOME/.zshrc
+sudo_if_possible rm -f $HOME/.zsh_history
