@@ -20,4 +20,7 @@ sudo_if_possible() {
 sudo_if_possible rm -rdf $HOME/.draw
 sudo_if_possible rm -rdf $HOME/.bashrc
 sudo_if_possible rm -rdf $HOME/.banner.sh
-sudo_if_possible bash -c $HOME/.oh-my-zsh/tools/uninstall.sh
+sudo_if_possible rm -rdf $HOME/.plugins
+sudo_if_possible rm -rdf $HOME/.oh-my-zsh
+sudo_if_possible rm -rdf $HOME/.zshrc
+sudo_if_possible rm -rdf $HOME/.zsh_history
