@@ -94,8 +94,8 @@ else
         alias ll.='ls --color=auto -Fhl -d .*'
 fi
 
-alias theader-rename='bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh)"'
-alias theader-uninstall='bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh)"'
+alias theader-rename="bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh)""
+alias theader-uninstall="bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh)""
 
 ## Safety.
 alias cp='cp -i'
