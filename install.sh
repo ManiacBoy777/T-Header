@@ -45,6 +45,7 @@ sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-He
 chmod +x /usr/bin/theader-rename
 chmod +x /usr/bin/theader-uninstall
 #name prompt
+clear
 echo
 echo
 echo
