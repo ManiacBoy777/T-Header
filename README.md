@@ -20,13 +20,9 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 - [x] Works as suoder or root!
 
 ## Installation
-##### 1. Run command to install
+##### Run command to install
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
-```
-##### 2. just open a new terminal or run
-```
-zsh
 ```
 
 ## Uninstallation
