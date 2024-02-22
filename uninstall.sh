@@ -21,4 +21,3 @@ sudo_if_possible rm -rdf $HOME/.draw
 sudo_if_possible rm -rdf $HOME/.bashrc
 sudo_if_possible rm -rdf $HOME/.banner.sh
 sudo_if_possible bash -c $HOME/. oh-my-zsh/tools/uninstall.sh
-sudo_if_possible apt remove figlet pv binutils coreutils wget curl git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
