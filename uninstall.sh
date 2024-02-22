@@ -18,6 +18,7 @@ sudo_if_possible() {
 }
 
 sudo_if_possible rm -f $HOME/.draw
+sudo_if_possible rm -f $HOME/.draw.sh
 sudo_if_possible rm -f $HOME/.bashrc
 sudo_if_possible rm -f $HOME/.banner.sh
 sudo_if_possible rm -rdf $HOME/.plugins
