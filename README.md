@@ -24,9 +24,9 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
 ```
-##### 2. after complete all processing just open new terminal session or run 
+##### 2. just open a new terminal or run
 ```
-source ~/.zshrc
+zsh
 ```
 
 ## Uninstallation
