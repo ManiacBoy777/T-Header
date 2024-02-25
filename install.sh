@@ -21,7 +21,8 @@ cat >> $HOME/.zshrc <<-EOF
 source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
 source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+source $HOME/.plugins/zsh-autoquoter/zsh-autoquoter.zsh
+ZAQ_PREFIXES=('git commit( [^ ]##)# -[^ -]#m' 'ssh( -[^ ]##)# [^ -][^ ]#')
 tput cnorm
 clear
 ## terminal banner
@@ -64,6 +65,7 @@ alias rm='rm -i'
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
 ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(zaq)
 cols=\$(tput cols)
 bash $HOME/.banner.sh \${cols} \${TNAME}
 neofetch
@@ -106,6 +108,7 @@ sudo_if_possible rm -rdf /etc/pam.d/chsh
 sudo_if_possible git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.plugins/zsh-autosuggestions
 sudo_if_possible git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.plugins/zsh-syntax-highlighting
 sudo_if_possible git clone https://github.com/Aloxaf/fzf-tab.git $HOME/.plugins/fzf-tab
+sudo_if_possible git clone https://github.com/ianthehenry/zsh-autoquoter.git $HOME/.plugins/zsh-autoquoter
 #download files
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
 sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
