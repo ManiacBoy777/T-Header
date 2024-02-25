@@ -17,57 +17,57 @@ sudo_if_possible() {
   fi
 }
 add_zsh_lines() {
- cat >> $HOME/.zshrc <<-EOF
-  source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
-  source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-  source $HOME/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  
-  tput cnorm
-  clear
-  ## terminal banner
-  #$HOME/T-Header/ASCII-Shadow.flf "$PROC" | lolcat;
-  echo
-  ## cursor
-  printf '\e[4 q'
-  ## prompt
-  TNAME="$PROC"
-  setopt prompt_subst
-  
-  PROMPT=$'
-  %{\e[0;31m%}┌─[%{\e[1;34m%}%B%{\${TNAME}%}%{\e[1;33m%}@%{\e[1;36m%}$HOSTNAME%b%{\e[0;31m%}]─[%{\e[0;32m%}%(4~|/%2~|%~)%{\e[0;31m%}]%b
-  %{\e[0;31m%}└──╼ %{\e[1;31m%}%B❯%{\e[1;34m%}❯%{\e[1;90m%}❯%{\e[0m%}%b '
-  
-  ## Replace 'ls' with 'exa' (if available) + some aliases.
-  if [ -n "\$(command -v exa)" ]; then
-        alias l='exa'
-        alias ls='exa'
-        alias l.='exa -d .*'
-        alias la='exa -a'
-        alias ll='exa -Fhl'
-        alias ll.='exa -Fhl -d .*'
-  else
-        alias l='ls --color=auto'
-        alias ls='ls --color=auto'
-        alias l.='ls --color=auto -d .*'
-        alias la='ls --color=auto -a'
-        alias ll='ls --color=auto -Fhl'
-        alias ll.='ls --color=auto -Fhl -d .*'
-  fi
+cat >> $HOME/.zshrc <<-EOF
+source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
+source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+tput cnorm
+clear
+## terminal banner
+#$HOME/T-Header/ASCII-Shadow.flf "$PROC" | lolcat;
+echo
+## cursor
+printf '\e[4 q'
+## prompt
+TNAME="$PROC"
+setopt prompt_subst
+
+PROMPT=$'
+%{\e[0;31m%}┌─[%{\e[1;34m%}%B%{\${TNAME}%}%{\e[1;33m%}@%{\e[1;36m%}$HOSTNAME%b%{\e[0;31m%}]─[%{\e[0;32m%}%(4~|/%2~|%~)%{\e[0;31m%}]%b
+%{\e[0;31m%}└──╼ %{\e[1;31m%}%B❯%{\e[1;34m%}❯%{\e[1;90m%}❯%{\e[0m%}%b '
+
+## Replace 'ls' with 'exa' (if available) + some aliases.
+if [ -n "\$(command -v exa)" ]; then
+      alias l='exa'
+      alias ls='exa'
+      alias l.='exa -d .*'
+      alias la='exa -a'
+      alias ll='exa -Fhl'
+      alias ll.='exa -Fhl -d .*'
+else
+      alias l='ls --color=auto'
+      alias ls='ls --color=auto'
+      alias l.='ls --color=auto -d .*'
+      alias la='ls --color=auto -a'
+      alias ll='ls --color=auto -Fhl'
+      alias ll.='ls --color=auto -Fhl -d .*'
+fi
 
 
-  ## Safety.
-  alias cp='cp -i'
-  alias ln='ln -i'
-  alias mv='mv -i'
-  alias rm='rm -i'
-  
-  
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
-  ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
-  cols=\$(tput cols)
-  bash $HOME/.banner.sh \${cols} \${TNAME}
-  neofetch
-  alias python='/usr/bin/python3'
+## Safety.
+alias cp='cp -i'
+alias ln='ln -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
+ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
+cols=\$(tput cols)
+bash $HOME/.banner.sh \${cols} \${TNAME}
+neofetch
+alias python='/usr/bin/python3'
 
 EOF
 }
