@@ -125,7 +125,7 @@ name_prompt
 clear
 
 #add lines to .zshrc
-sudo_if_possible add_zsh_lines
+add_zsh_lines
 
 echo Complete!
 echo
