@@ -93,7 +93,7 @@ name_prompt() {
 #update & install depends
 sudo_if_possible apt update -y
 sudo_if_possible apt upgrade -y
-sudo_if_possible apt install -m figlet pv binutils coreutils wget curl git zsh procps gawk exa neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
+sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf exa -ym
 sudo_if_possible gem install lolcat
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
