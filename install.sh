@@ -16,6 +16,27 @@ sudo_if_possible() {
     "$@"
   fi
 }
+
+#update 2025 adds option to run original script by remo773
+if [[ "$1" == "--termux" ]]; then
+    echo "\"--termux\" argument passed"
+    echo "Installing original script by remo773"
+    echo "To remove this version follow these steps:"
+    echo "bash ./T-Header/t-header.sh --remove && exit"
+    read -n 1 -s -r -p "Press any key to install or press CTRL-C to cancel installation..."
+    sudo_if_possible apt update
+    sudo_if_possible apt upgrade -y
+    sudo_if_possible apt install git -y
+    git clone https://github.com/remo7777/T-Header.git $HOME/T-Header
+    bash $HOME/T-Header/t-header.sh
+    exit 0
+else
+    echo "accepted arguments: --termux"
+    echo "Usage: installs the original script by remo773 made for termux instead of the desktop version"
+    exit 1
+fi
+
+
 add_zsh_lines() {
 cat >> $HOME/.zshrc <<-EOF
 source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
