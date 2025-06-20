@@ -24,11 +24,6 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
 ```
-##### (Optional, for termux users only)
-This will install the original script by remo773
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)" --termux
-```
 
 ## Uninstallation
 
