@@ -15,6 +15,7 @@ sudo_if_possible() {
     # Run the command without sudo
     "$@"
   fi
+}
 # follow his instructions on his GitHub remo7777
 install_remo_version() {
   sudo_if_possible apt update
