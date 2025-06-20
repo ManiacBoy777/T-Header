@@ -18,7 +18,7 @@ sudo_if_possible() {
 }
 
 #update 2025 adds option to run original script by remo773
-if [[ "$1" == "--termux" ]]; then
+if [[ "$1" == --termux ]]; then
     echo "\"--termux\" argument passed"
     echo "Installing original script by remo773"
     echo "To remove this version follow these steps:"
