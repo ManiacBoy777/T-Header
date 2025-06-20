@@ -31,8 +31,10 @@ if [[ "$1" == "--termux" ]]; then
     bash $HOME/T-Header/t-header.sh
     exit 0
 else
+    echo ""
     echo "accepted arguments: --termux"
     echo "Usage: installs the original script by remo773 made for termux instead of the desktop version"
+    echo ""
     exit 1
 fi
 
