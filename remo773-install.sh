@@ -15,3 +15,13 @@ sudo_if_possible() {
     # Run the command without sudo
     "$@"
   fi
+# follow his instructions on his GitHub remo7777
+install_remo_version() {
+  sudo_if_possible apt update
+  sudo_if_possible apt upgrade -y
+  sudo_if_possible apt install git -y
+  git clone https://github.com/remo7777/T-Header.git $HOME/T-Header
+  bash $HOME/T-Header/t-header.sh
+}
+
+install_remo_version
