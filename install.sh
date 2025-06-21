@@ -16,7 +16,23 @@ sudo_if_possible() {
     "$@"
   fi
 }
-add_zsh_lines() {
+
+#update 2025 adds option to run original script by remo773
+if [[ "$1" == "--termux" ]]; then
+    echo "\"--termux\" argument passed"
+    echo "Installing original script by remo773"
+    echo "To remove this version follow these steps:"
+    echo "bash ./T-Header/t-header.sh --remove && exit"
+    read -n 1 -s -r -p "Press any key to install or press CTRL-C to cancel installation..."
+    sudo_if_possible apt update
+    sudo_if_possible apt upgrade -y
+    sudo_if_possible apt install git -y
+    git clone https://github.com/remo7777/T-Header.git $HOME/T-Header
+    bash $HOME/T-Header/t-header.sh
+    exit 0
+elif [[ -z "$1"  ]]; then
+
+    add_zsh_lines() {
 cat >> $HOME/.zshrc <<-EOF
 source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
 source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -73,8 +89,8 @@ alias python='/usr/bin/python3'
 
 EOF
 }
-
-name_prompt() {
+    
+    name_prompt() {
   echo
   echo
   echo
@@ -89,47 +105,57 @@ name_prompt() {
   echo "Edit the $HOME/.zshrc file and replace the value in quotes at 'TNAME'"
 
 }
+    
+    #update & install depends
+    sudo_if_possible apt update -y
+    sudo_if_possible apt upgrade -y
+    sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
+    sudo_if_possible gem install lolcat
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    
+    #remove existing
+    #sudo_if_possible rm -rdf $HOME/T-Header
 
-#update & install depends
-sudo_if_possible apt update -y
-sudo_if_possible apt upgrade -y
-sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
-sudo_if_possible gem install lolcat
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-#remove existing
-#sudo_if_possible rm -rdf $HOME/T-Header
-
-#remove conflict
-sudo_if_possible rm -rdf /etc/pam.d/chsh
+    #remove conflict
+    sudo_if_possible rm -rdf /etc/pam.d/chsh
 
 
-#git clone zsh plugins
-sudo_if_possible git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.plugins/zsh-autosuggestions
-sudo_if_possible git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.plugins/zsh-syntax-highlighting
-sudo_if_possible git clone https://github.com/Aloxaf/fzf-tab.git $HOME/.plugins/fzf-tab
-sudo_if_possible git clone https://github.com/ianthehenry/zsh-autoquoter.git $HOME/.plugins/zsh-autoquoter
-#download files
-sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
-sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
-sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.draw" -o $HOME/.draw
-#sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.bashrc" -o $HOME/.bashrc
-sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
-sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh" -o /usr/bin/theader-rename
-sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh" -o /usr/bin/theader-uninstall
-chmod +x /usr/bin/theader-rename
-chmod +x /usr/bin/theader-uninstall
+    #git clone zsh plugins
+    sudo_if_possible git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.plugins/zsh-autosuggestions
+    sudo_if_possible git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.plugins/zsh-syntax-highlighting
+    sudo_if_possible git clone https://github.com/Aloxaf/fzf-tab.git $HOME/.plugins/fzf-tab
+    sudo_if_possible git clone https://github.com/ianthehenry/zsh-autoquoter.git $HOME/.plugins/zsh-autoquoter
+    #download files
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.draw" -o $HOME/.draw
+    #sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.bashrc" -o $HOME/.bashrc
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh" -o /usr/bin/theader-rename
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh" -o /usr/bin/theader-uninstall
+    chmod +x /usr/bin/theader-rename
+    chmod +x /usr/bin/theader-uninstall
 
-#name prompt
-name_prompt
-clear
+    #name prompt
+    name_prompt
+    clear
 
-#add lines to .zshrc
-add_zsh_lines
+    #add lines to .zshrc
+    add_zsh_lines
 
-echo Complete!
-echo
-echo "Please wait for new terminal session to start"
-echo
-echo "The first time might take a second"
-zsh
+    echo Complete!
+    echo
+    echo "Please wait for new terminal session to start"
+    echo
+    echo "The first time might take a second"
+    zsh
+
+else
+echo ""
+    echo "accepted arguments: --termux"
+    echo "Usage: installs the original script by remo773 made for termux instead of the desktop version"
+    echo ""
+    exit 1
+fi
+
+

@@ -24,12 +24,12 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
 ```
-##### Termux installation:
-This installs remo773's original script
+##### (Optional, for termux users only)
+This will install the original script by remo773
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/remo773-install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)" --termux
+```
 
-```
 ## Uninstallation
 
 type
