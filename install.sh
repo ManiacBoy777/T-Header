@@ -47,7 +47,7 @@ if test -f $HOME/.banner.sh
     bash $HOME/.banner.sh $cols $TNAME
 end
 
-# Neofetch/terminal-widgets at startup
+# terminal-widgets at startup
 if type -q twidgets
     twidgets
 end
@@ -155,7 +155,7 @@ EOF
     #update & install depends
     sudo_if_possible apt update -y
     sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
+    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
     sudo_if_possible gem install lolcat
     python3 -m pip install terminal-widgets
     fish -c "curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish -c"
