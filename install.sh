@@ -38,7 +38,7 @@ cat >> $HOME/.config/fish/config.fish <<-EOF
 set fish_greeting ''
 # --- Name Banner ---
 if not set -q TNAME
-    set -gx TNAME "DedSec"   # replace with your custom name
+    set -gx TNAME "$PROC"   # replace with your custom name
 end
 
 # Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
@@ -139,7 +139,7 @@ EOF
   echo
   echo
   echo
-  read -p "Enter name: " PROC
+  fish -c "read -g -P "Enter name: " PROC"
   echo
   echo "'$PROC' will be displayed at the top of every new terminal"
   echo 
@@ -148,6 +148,7 @@ EOF
   echo "If you'd like to change this:"
   echo
   echo "Edit the $HOME/.config/fish/fish.config file and replace the value in quotes at 'TNAME'"
+  sleep 5
 
 }
     
