@@ -2,6 +2,6 @@
 clear
 read -p "Enter new name: " PROC
 
-sed -i "s/TNAME=\".*\"/TNAME=\"$PROC\"/" $HOME/.zshrc
+sed -i "s/TNAME=\".*\"/TNAME=\"$PROC\"/" $HOME/.config/fish/fish.config
 
-source $HOME/.zshrc
+exec fish

@@ -32,63 +32,108 @@ if [[ "$1" == "--termux" ]]; then
     exit 0
 elif [[ -z "$1"  ]]; then
 
-    add_zsh_lines() {
-cat >> $HOME/.zshrc <<-EOF
-source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
-source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.plugins/zsh-autoquoter/zsh-autoquoter.zsh
-ZAQ_PREFIXES=('git commit( [^ ]##)# -[^ -]#m' 'ssh( -[^ ]##)# [^ -][^ ]#')
-tput cnorm
-clear
-## terminal banner
-#$HOME/T-Header/ASCII-Shadow.flf "$PROC" | lolcat;
-echo
-## cursor
-printf '\e[4 q'
-## prompt
-TNAME="$PROC"
-setopt prompt_subst
+    add_fish_lines() {
+cat >> $HOME/.config/fish/config.fish <<-EOF
+# ~/.config/fish/config.fish
+set fish_greeting ''
+# --- Name Banner ---
+if not set -q TNAME
+    set -gx TNAME "DedSec"   # replace with your custom name
+end
 
-PROMPT=$'
-%{\e[0;31m%}┌─[%{\e[1;34m%}%B%{\${TNAME}%}%{\e[1;33m%}@%{\e[1;36m%}$HOSTNAME%b%{\e[0;31m%}]─[%{\e[0;32m%}%(4~|/%2~|%~)%{\e[0;31m%}]%b
-%{\e[0;31m%}└──╼ %{\e[1;31m%}%B❯%{\e[1;34m%}❯%{\e[1;90m%}❯%{\e[0m%}%b '
+# Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
+if test -f $HOME/.banner.sh
+    set cols (tput cols)
+    bash $HOME/.banner.sh $cols $TNAME
+end
 
-## Replace 'ls' with 'exa' (if available) + some aliases.
-if [ -n "\$(command -v exa)" ]; then
-      alias l='exa'
-      alias ls='exa'
-      alias l.='exa -d .*'
-      alias la='exa -a'
-      alias ll='exa -Fhl'
-      alias ll.='exa -Fhl -d .*'
+# Neofetch/terminal-widgets at startup
+if type -q twidgets
+    twidgets
+end
+
+# --- Aliases ---
+if type -q exa
+    alias l 'exa'
+    alias ls 'exa'
+    alias l. 'exa -d .*'
+    alias la 'exa -a'
+    alias ll 'exa -Fhl'
+    alias ll. 'exa -Fhl -d .*'
 else
-      alias l='ls --color=auto'
-      alias ls='ls --color=auto'
-      alias l.='ls --color=auto -d .*'
-      alias la='ls --color=auto -a'
-      alias ll='ls --color=auto -Fhl'
-      alias ll.='ls --color=auto -Fhl -d .*'
-fi
+    alias l 'ls --color=auto'
+    alias ls 'ls --color=auto'
+    alias l. 'ls --color=auto -d .*'
+    alias la 'ls --color=auto -a'
+    alias ll 'ls --color=auto -Fhl'
+    alias ll. 'ls --color=auto -Fhl -d .*'
+end
 
+# Safety aliases
+alias cp 'cp -i'
+alias ln 'ln -i'
+alias mv 'mv -i'
+alias rm 'rm -i'
+alias cd 'z'
+# Force python -> python3
+alias python '/usr/bin/python3'
 
-## Safety.
-alias cp='cp -i'
-alias ln='ln -i'
-alias mv='mv -i'
-alias rm='rm -i'
+# --- Cursor style ---
+# Makes cursor a blinking underline
+echo -ne "\e[4 q"
 
+   zoxide init fish | source
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
-ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
-ZSH_HIGHLIGHT_HIGHLIGHTERS+=(zaq)
-cols=\$(tput cols)
-bash $HOME/.banner.sh \${cols} \${TNAME}
-neofetch
-alias python='/usr/bin/python3'
 
 EOF
 }
+
+    add_custom_prompt_lines() {
+cat >> $HOME/.config/fish/functions/fish_prompt.fish <<-EOF
+# ~/.config/fish/functions/fish_prompt.fish
+function fish_prompt
+    set_color red
+    echo -n "┌─["
+
+    set_color blue
+    echo -n $TNAME
+
+    set_color yellow
+    echo -n "@"
+
+    set_color cyan
+    echo -n (hostname)
+
+    set_color red
+    echo -n "]─["
+
+    set_color green
+    echo -n (prompt_pwd)
+
+    set_color red
+    echo "]"
+
+    echo -n "└──╼ "
+
+    set_color red --bold
+    echo -n "❯"
+
+    set_color blue
+    echo -n "❯"
+
+    set_color brblack
+    echo -n "❯ "
+
+    set_color normal
+end
+
+EOF
+}
+
+
+
+
+
     
     name_prompt() {
   echo
@@ -102,16 +147,17 @@ EOF
   echo
   echo "If you'd like to change this:"
   echo
-  echo "Edit the $HOME/.zshrc file and replace the value in quotes at 'TNAME'"
+  echo "Edit the $HOME/.config/fish/fish.config file and replace the value in quotes at 'TNAME'"
 
 }
     
     #update & install depends
     sudo_if_possible apt update -y
     sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
+    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
     sudo_if_possible gem install lolcat
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    python3 -m pip install terminal-widgets
+    fish -c "curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish -c"
     
     #remove existing
     #sudo_if_possible rm -rdf $HOME/T-Header
@@ -120,19 +166,21 @@ EOF
     sudo_if_possible rm -rdf /etc/pam.d/chsh
 
 
-    #git clone zsh plugins
-    sudo_if_possible git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.plugins/zsh-autosuggestions
-    sudo_if_possible git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.plugins/zsh-syntax-highlighting
-    sudo_if_possible git clone https://github.com/Aloxaf/fzf-tab.git $HOME/.plugins/fzf-tab
-    sudo_if_possible git clone https://github.com/ianthehenry/zsh-autoquoter.git $HOME/.plugins/zsh-autoquoter
-    #download files
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.draw" -o $HOME/.draw
-    #sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.bashrc" -o $HOME/.bashrc
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh" -o /usr/bin/theader-rename
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh" -o /usr/bin/theader-uninstall
+    # Install plugins & Theme
+    fish -c "omf install bira"
+    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+    fish -c "fisher install patrickf1/fzf.fish"
+    fish -c "fisher install ttscoff/fuzzy_cd"
+    fish -c "fisher install gazorby/fish-abbreviation-tips"
+    fish -c "fisher install meaningful-ooo/sponge"
+    fish -c "fisher install franciscolourenco/done"
+    # Download files
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/chsh" -o /etc/pam.d/chsh
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/.draw" -o $HOME/.draw
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/.banner.sh" -o $HOME/.banner.sh
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/rename.sh" -o /usr/bin/theader-rename
+    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/uninstall.sh" -o /usr/bin/theader-uninstall
     chmod +x /usr/bin/theader-rename
     chmod +x /usr/bin/theader-uninstall
 
@@ -140,15 +188,17 @@ EOF
     name_prompt
     clear
 
-    #add lines to .zshrc
-    add_zsh_lines
-
+    # Add lines to config.fish
+    add_fish_lines
+    # Add lines to fish_prompt
+    add_custom_prompt_lines
+    
     echo Complete!
     echo
     echo "Please wait for new terminal session to start"
     echo
     echo "The first time might take a second"
-    zsh
+    fish
 
 else
 echo ""
