@@ -140,6 +140,7 @@ EOF
   echo
   echo
   fish -c "read -g -P "Enter name: " PROC"
+  fish -c "set -gx TNAME "$PROC""
   echo
   echo "'$PROC' will be displayed at the top of every new terminal"
   echo 
