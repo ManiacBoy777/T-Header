@@ -200,7 +200,7 @@ EOF
     echo "Please wait for new terminal session to start"
     echo
     echo "The first time might take a second"
-    fish
+    exec fish
 
 else
 echo ""
