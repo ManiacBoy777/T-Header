@@ -1,15 +1,15 @@
 # T-Header script
-This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlight plugins and terminal header with own name for Terminal. 
+This Bash script contains Oh-My-Fish With, command autosuggestion, syntax highlighting and terminal header with own name for Terminal. 
 ## Preview
 ![image](https://github.com/ManiacBoy777/T-Header/assets/29928632/c5c270b7-e13f-4f2d-9a6b-a43d982cacb8)
 ![image](https://github.com/ManiacBoy777/T-Header/assets/29928632/ffc1b07e-11b6-4561-b0c0-f738a472958c)
 
 ## Features
 
-- [x] Support for oh-my-zsh themes
-- [x] zsh-autosuggestions plugin
+- [x] Support themes
+- [x] Built-in autosuggestions
         (Inline Command Autosuggestions)
-- [x] zsh-syntax-highlighting plugin
+- [x] Built-in syntax-highlighting
         (Highlight Valid Commands while typing)
 - [x] fzf-tab plugin
         (Better TAB)
@@ -22,12 +22,12 @@ This Bash script contains Oh-My-Zsh With, command autosuggestion, syntax highlig
 ## Installation
 ##### Run command to install
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/install.sh)"
 ```
 ##### (Optional, for termux users only)
 This will install the original script by remo773
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/install.sh)" --termux
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/zsh-master/install.sh)" --termux
 ```
 
 ## Uninstallation
@@ -36,7 +36,7 @@ type
 ```
 theader-uninstall
 ```
-from zsh shell or run 
+from fish shell or run 
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/uninstall.sh)"
 ```
