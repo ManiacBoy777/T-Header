@@ -33,7 +33,7 @@ if [[ "$1" == "--termux" ]]; then
 elif [[ -z "$1"  ]]; then
 
     add_fish_lines() {
-cat >> $HOME/.config/fish/config.fish <<-EOF
+cat > $HOME/.config/fish/config.fish <<-EOF
 # ~/.config/fish/config.fish
 set fish_greeting ''
 # --- Name Banner ---
@@ -142,7 +142,7 @@ EOF
   fish -c "read -g -P 'Enter name: ' PROC"
   fish -c "set -gx TNAME '$PROC'"
   echo
-  echo "'$PROC' will be displayed at the top of every new terminal"
+  fish -c "echo "'$PROC' will be displayed at the top of every new terminal""
   echo 
   echo "This also replaces your username in the PS1 prompt."
   echo
@@ -169,13 +169,13 @@ EOF
 
 
     # Install plugins & Theme
-    fish -c "omf install bira"
-    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
-    fish -c "fisher install patrickf1/fzf.fish"
-    fish -c "fisher install ttscoff/fuzzy_cd"
-    fish -c "fisher install gazorby/fish-abbreviation-tips"
-    fish -c "fisher install meaningful-ooo/sponge"
-    fish -c "fisher install franciscolourenco/done"
+    fish -c 'omf install bira'
+    fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+    fish -c 'fisher install patrickf1/fzf.fish'
+    fish -c 'fisher install ttscoff/fuzzy_cd'
+    fish -c 'fisher install gazorby/fish-abbreviation-tips'
+    fish -c 'fisher install meaningful-ooo/sponge'
+    fish -c 'fisher install franciscolourenco/done'
     # Download files
     sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
     sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/chsh" -o /etc/pam.d/chsh
@@ -209,5 +209,3 @@ echo ""
     echo ""
     exit 1
 fi
-
-
