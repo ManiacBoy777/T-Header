@@ -155,10 +155,11 @@ EOF
     #update & install depends
     sudo_if_possible apt update -y
     sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
+    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
     sudo_if_possible gem install lolcat
-    python3 -m pip install terminal-widgets
-    fish -c "curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish -c"
+    python3 -m pip install terminal-widgets --break-system-packages
+    fish -c "set -gx SHELL 'fish' "
+    fish -c "(curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install)"
     
     #remove existing
     #sudo_if_possible rm -rdf $HOME/T-Header
