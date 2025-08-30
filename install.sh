@@ -139,8 +139,8 @@ EOF
   echo
   echo
   echo
-  fish -c "read -g -P 'Enter name: ' PROC"
-  fish -c "set -Ux TNAME (echo $PROC)"
+  read -p 'Enter name: ' PROC
+  fish -c 'set -Ux TNAME (echo $PROC)'
   echo
   fish -c "echo (echo $PROC) will be displayed at the top of every new terminal"
   echo 
@@ -159,7 +159,7 @@ EOF
     sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
     sudo_if_possible gem install lolcat
     python3 -m pip install terminal-widgets --break-system-packages
-    fish -c "set -gx SHELL 'fish' "
+    fish -c "set -Ux SHELL 'fish' "
     curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish -c 'source - --noninteractive'    
     #remove existing
     #sudo_if_possible rm -rdf $HOME/T-Header
