@@ -173,7 +173,6 @@ EOF
     fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
     fish -c 'fisher install patrickf1/fzf.fish'
     fish -c 'fisher install ttscoff/fuzzy_cd'
-    fish -c 'fisher install gazorby/fish-abbreviation-tips'
     fish -c 'fisher install meaningful-ooo/sponge'
     fish -c 'fisher install franciscolourenco/done'
     # Download files
