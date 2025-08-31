@@ -33,7 +33,7 @@ if [[ "$1" == "--termux" ]]; then
 elif [[ -z "$1"  ]]; then
 
     add_fish_lines() {
-cat > $HOME/.config/fish/config.fish <<-'EOF'
+cat > $HOME/.config/fish/config.fish <<-EOF
 # ~/.config/fish/config.fish
 set fish_greeting ''
 # --- Name Banner ---
@@ -44,7 +44,7 @@ end
 # Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
 if test -f $HOME/.banner.sh
     set cols (tput cols)
-    bash $HOME/.banner.sh $cols $TNAME 
+    bash $HOME/.banner.sh \$cols \$TNAME 
 end
 
 # terminal-widgets at startup
@@ -96,7 +96,7 @@ function fish_prompt
     echo -n "┌─["
 
     set_color blue
-    echo -n $TNAME
+    echo -n $PROC
 
     set_color yellow
     echo -n "@"
@@ -142,7 +142,7 @@ EOF
   read -p 'Enter name: ' PROC
   fish -c 'set -Ux TNAME (echo $PROC)'
   echo
-  fish -c "echo (echo $PROC) will be displayed at the top of every new terminal"
+  echo "(echo $PROC) will be displayed at the top of every new terminal"
   echo 
   echo "This also replaces your username in the PS1 prompt."
   echo
