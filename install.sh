@@ -38,7 +38,7 @@ cat > $HOME/.config/fish/config.fish <<-EOF
 set fish_greeting ''
 # --- Name Banner ---
 if not set -q TNAME
-    set -Ux TNAME "$PROC"   # replace with your custom name
+    set -Ux TNAME \'$PROC'   # replace with your custom name
 end
 
 # Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
