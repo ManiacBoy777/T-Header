@@ -38,7 +38,7 @@ cat > $HOME/.config/fish/config.fish <<-EOF
 set fish_greeting ''
 # --- Name Banner ---
 if not set -q TNAME
-    set -Ux TNAME \"$PROC"   # replace with your custom name
+    set -Ux TNAME "$PROC"   # replace with your custom name
 end
 
 # Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
@@ -96,7 +96,7 @@ function fish_prompt
     echo -n "┌─["
 
     set_color blue
-    echo -n $PROC
+    echo -n $TNAME
 
     set_color yellow
     echo -n "@"
@@ -140,9 +140,10 @@ EOF
   echo
   echo
   read -p 'Enter name: ' PROC
-  fish -c 'set -Ux TNAME (echo $PROC)'
+  fish -c 'set -Ux TNAME '$PROC'
+  fish -c 'set -Ux PROC '$TNAME'
   echo
-  echo "(echo $PROC) will be displayed at the top of every new terminal"
+  echo '(echo $PROC) will be displayed at the top of every new terminal'
   echo 
   echo "This also replaces your username in the PS1 prompt."
   echo
