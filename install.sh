@@ -193,7 +193,7 @@ EOF
     add_fish_lines
     # Add lines to fish_prompt
     add_custom_prompt_lines
-    
+    chsh -s /bin/usr/fish
     echo Complete!
     echo
     echo "Please wait for new terminal session to start"
