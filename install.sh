@@ -143,7 +143,7 @@ EOF
   fish -c "set -Ux TNAME '$PROC'"
   fish -c "set -Ux PROC '$TNAME'"
   echo
-  echo "$(echo $PROC) will be displayed at the top of every new terminal"
+  echo "$PROC will be displayed at the top of every new terminal"
   echo 
   echo "This also replaces your username in the PS1 prompt."
   echo
