@@ -48,9 +48,7 @@ if test -f $HOME/.banner.sh
 end
 
 # terminal-widgets at startup
-if type -q twidgets
-    twidgets
-end
+python -m twidgets
 
 # --- Aliases ---
 if type -q exa
@@ -157,7 +155,7 @@ EOF
     #update & install depends
     sudo_if_possible apt update -y
     sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
+    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf zoxide -y
     sudo_if_possible gem install lolcat
     python3 -m pip install terminal-widgets --break-system-packages
     fish -c "set -Ux SHELL 'fish' "
@@ -187,6 +185,7 @@ EOF
     chmod +x /usr/bin/theader-uninstall
 
     #name prompt
+    clear
     name_prompt
     clear
 
