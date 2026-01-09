@@ -82,6 +82,24 @@ echo -ne "\e[4 q"
 
    zoxide init fish | source
 
+#tmux
+# Only start tmux if not already inside tmux
+if not set -q TMUX
+
+    # Get all existing tmux session names
+    set SESSIONS (tmux list-sessions -F "#S" 2>/dev/null)
+
+    # Start with 0
+    set NEXT 0
+
+    # Increment NEXT until it’s not in SESSIONS
+    while contains $NEXT $SESSIONS
+        set NEXT (expr $NEXT + 1)
+    end
+
+    # Start new tmux session with this number
+    tmux new -s $NEXT
+end
 
 EOF
 }
@@ -155,7 +173,7 @@ EOF
     #update & install depends
     sudo_if_possible apt update -y
     sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf zoxide -y
+    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf zoxide tmux -y
     sudo_if_possible gem install lolcat
     python3 -m pip install terminal-widgets --break-system-packages
     fish -c "set -Ux SHELL 'fish' "
