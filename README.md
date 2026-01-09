@@ -17,7 +17,8 @@ This Bash script contains Oh-My-Fish With, command autosuggestion, syntax highli
 - [x] Custom PS1 with custom trim path indicator
 - [x] Custom prompt cursor
 - [x] Neofetch added to header
-- [x] Works as suoder or root!
+- [x] Works as sudoer or root!
+- [x] Adds tmux to manage sessions (i.e. prevents accidental ssh disconnection terminating jobs)
 
 ## Installation
 ##### Run command to install
