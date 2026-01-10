@@ -36,6 +36,13 @@ elif [[ -z "$1"  ]]; then
 cat > $HOME/.config/fish/config.fish <<-EOF
 # ~/.config/fish/config.fish
 set fish_greeting ''
+
+#tmux
+# Only start tmux if not already inside tmux
+if not set -q TMUX
+    exec tmux
+end
+
 # --- Name Banner ---
 if not set -q TNAME
     set -Ux TNAME "$PROC"   # replace with your custom name
@@ -82,11 +89,7 @@ echo -ne "\e[4 q"
 
    zoxide init fish | source
 
-#tmux
-# Only start tmux if not already inside tmux
-if not set -q TMUX
-    tmux
-end
+
 
 EOF
 }
