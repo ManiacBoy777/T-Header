@@ -85,20 +85,7 @@ echo -ne "\e[4 q"
 #tmux
 # Only start tmux if not already inside tmux
 if not set -q TMUX
-
-    # Get all existing tmux session names
-    set SESSIONS (tmux list-sessions -F "#S" 2>/dev/null)
-
-    # Start with 0
-    set NEXT 0
-
-    # Increment NEXT until it’s not in SESSIONS
-    while contains $NEXT $SESSIONS
-        set NEXT (expr $NEXT + 1)
-    end
-
-    # Start new tmux session with this number
-    tmux new -s $NEXT
+    tmux
 end
 
 EOF
