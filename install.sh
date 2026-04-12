@@ -1,12 +1,9 @@
 #!/bin/bash
 # ==============================================================================
-# T-Header: Robust Terminal Customization for Fish Shell
+# T-Header: Robust Standalone Installer for Fish Shell
 # ==============================================================================
-# Features:
-# - Custom banner and prompt
-# - Automated dependency installation
-# - Modular Fish shell configuration
-# - Enhanced error handling and safety
+# This script is designed for remote execution:
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/install.sh)"
 # ==============================================================================
 
 set -euo pipefail
@@ -15,20 +12,18 @@ set -euo pipefail
 REPO_OWNER="ManiacBoy777"
 REPO_NAME="T-Header"
 BRANCH="fish-master"
+BASE_URL="https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH"
 CONFIG_DIR="$HOME/.config/fish"
 CONF_D_DIR="$CONFIG_DIR/conf.d"
 FUNCTIONS_DIR="$CONFIG_DIR/functions"
-ASCII_SHADOW_URL="https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH/ASCII-Shadow.flf"
 
 # --- Utility Functions ---
 
-# Log messages with color
 log_info() { echo -e "\e[34m[INFO]\e[0m $1"; }
 log_success() { echo -e "\e[32m[SUCCESS]\e[0m $1"; }
 log_warn() { echo -e "\e[33m[WARN]\e[0m $1"; }
 log_error() { echo -e "\e[31m[ERROR]\e[0m $1"; exit 1; }
 
-# Run a command with sudo if needed
 sudo_if_needed() {
     if [[ "$EUID" -ne 0 ]] && command -v sudo >/dev/null 2>&1; then
         sudo "$@"
@@ -37,7 +32,6 @@ sudo_if_needed() {
     fi
 }
 
-# Cleanup on error
 cleanup() {
     local exit_code=$?
     if [ $exit_code -ne 0 ]; then
@@ -87,10 +81,13 @@ setup_fish_environment() {
 }
 
 download_assets() {
-    log_info "Downloading assets and configuration files..."
+    log_info "Downloading assets and configuration files from GitHub..."
     
-    sudo_if_needed curl -fsSL "$ASCII_SHADOW_URL" -o /usr/share/figlet/ASCII-Shadow.flf
+    # Figlet font
+    sudo_if_needed curl -fsSL "$BASE_URL/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
     
+    # Files to download and their destinations
+    # format: "src_file:dest_path"
     local files=(
         ".draw:$HOME/.draw"
         ".banner.sh:$HOME/.banner.sh"
@@ -102,7 +99,7 @@ download_assets() {
         local src="${item%%:*}"
         local dst="${item##*:}"
         log_info "Downloading $src to $dst..."
-        sudo_if_needed curl -fsSL "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH/$src" -o "$dst"
+        sudo_if_needed curl -fsSL "$BASE_URL/$src" -o "$dst"
         sudo_if_needed chmod +x "$dst"
     done
 }
@@ -210,7 +207,7 @@ name_prompt() {
         fi
     done
     
-    # Sanitize name (basic alphanumeric + spaces/dashes)
+    # Sanitize name
     name=$(echo "$name" | tr -dc '[:alnum:] -')
     
     export PROC="$name"
@@ -230,7 +227,7 @@ if [[ "${1:-}" == "--termux" ]]; then
 fi
 
 # Desktop/Standard Installation
-log_info "Starting T-Header robust installation..."
+log_info "Starting T-Header robust standalone installation..."
 
 install_dependencies
 setup_fish_environment
