@@ -1,10 +1,10 @@
-# T-Header: Robust Terminal Customization
+# T-Header: Terminal Customization
 
 T-Header is a powerful and easy-to-use terminal customization script for the Fish shell. It provides a beautiful custom banner, a clean prompt, and essential plugins to enhance your terminal experience on Linux.
 
 ## Features
 
-- [x] **Robust Installer**: Now with full error handling and modular script organization.
+- [x] **Installer**: Now with full error handling and modular script organization.
 - [x] **Modular Fish Config**: Uses `conf.d/` for cleaner management of aliases and environment variables.
 - [x] **Safe Uninstaller**: Only removes components it installed, protecting your other configurations.
 - [x] **Custom Banner**: A high-performance banner with your name using `figlet` and `lolcat`.
@@ -15,7 +15,7 @@ T-Header is a powerful and easy-to-use terminal customization script for the Fis
 
 ## Installation
 
-To install the robust version of T-Header on your Linux desktop:
+To install the version of T-Header on your Linux desktop:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/install.sh)"

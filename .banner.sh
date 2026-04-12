@@ -53,9 +53,9 @@ done
 # Draw version/boot info
 PUT 10 ${VAR4}
 if command -v lolcat >/dev/null; then
-    echo -e "\e[32mBoot Script \e[33m3.0 (Robust)\e[0m" | lolcat -t -F 0.25 2>/dev/null
+    echo -e "\e[32mBoot Script \e[33m3.0\e[0m" | lolcat -t -F 0.25 2>/dev/null
 else
-    echo -e "\e[32mBoot Script \e[33m3.0 (Robust)\e[0m"
+    echo -e "\e[32mBoot Script \e[33m3.0\e[0m"
 fi
 
 PUT 12 0

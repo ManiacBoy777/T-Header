@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# T-Header: Robust Standalone Installer for Fish Shell
+# T-Header: Standalone Installer for Fish Shell
 # ==============================================================================
 # This script is designed for remote execution:
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/install.sh)"
@@ -227,7 +227,7 @@ if [[ "${1:-}" == "--termux" ]]; then
 fi
 
 # Desktop/Standard Installation
-log_info "Starting T-Header robust standalone installation..."
+log_info "Starting T-Header standalone installation..."
 
 install_dependencies
 setup_fish_environment
