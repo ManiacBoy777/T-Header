@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# T-Header: Robust Standalone Installer for Zsh Shell
+# T-Header: Standalone Installer for Zsh Shell
 # ==============================================================================
 # This script is designed for remote execution:
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/zsh-master/install.sh)"
@@ -197,7 +197,7 @@ if [[ "${1:-}" == "--termux" ]]; then
     exit 0
 fi
 
-log_info "Starting T-Header robust Zsh standalone installation..."
+log_info "Starting T-Header Zsh standalone installation..."
 
 install_dependencies
 setup_zsh_environment
