@@ -18,10 +18,7 @@ T-Header is a powerful and easy-to-use terminal customization script for the Fis
 To install the robust version of T-Header on your Linux desktop:
 
 ```bash
-git clone https://github.com/ManiacBoy777/T-Header.git
-cd T-Header
-chmod +x install.sh
-./install.sh
+git clone https://github.com/ManiacBoy777/T-Header.git && cd T-Header && chmod +x install.sh && ./install.sh
 ```
 
 ### For Termux Users
