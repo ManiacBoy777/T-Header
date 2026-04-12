@@ -1,43 +1,50 @@
-# T-Header script
-This Bash script contains Oh-My-Fish With, command autosuggestion, syntax highlighting and terminal header with own name for Terminal. 
-## Preview
-![image](https://github.com/ManiacBoy777/T-Header/assets/29928632/c5c270b7-e13f-4f2d-9a6b-a43d982cacb8)
-![image](https://github.com/ManiacBoy777/T-Header/assets/29928632/ffc1b07e-11b6-4561-b0c0-f738a472958c)
+# T-Header: Robust Terminal Customization
+
+T-Header is a powerful and easy-to-use terminal customization script for the Fish shell. It provides a beautiful custom banner, a clean prompt, and essential plugins to enhance your terminal experience on Linux.
 
 ## Features
 
-- [x] Support themes
-- [x] Built-in autosuggestions
-        (Inline Command Autosuggestions)
-- [x] Built-in syntax-highlighting
-        (Highlight Valid Commands while typing)
-- [x] fzf-tab plugin
-        (Better TAB)
-- [x] Custom terminal-banner
-- [x] Custom PS1 with custom trim path indicator
-- [x] Custom prompt cursor
-- [x] Neofetch added to header
-- [x] Works as sudoer or root!
-- [x] Adds tmux to manage sessions (i.e. prevents accidental ssh disconnection terminating jobs)
+- [x] **Robust Installer**: Now with full error handling and modular script organization.
+- [x] **Modular Fish Config**: Uses `conf.d/` for cleaner management of aliases and environment variables.
+- [x] **Safe Uninstaller**: Only removes components it installed, protecting your other configurations.
+- [x] **Custom Banner**: A high-performance banner with your name using `figlet` and `lolcat`.
+- [x] **Enhanced Prompt**: A clean, multi-line PS1 with your custom name and hostname.
+- [x] **Essential Plugins**: Automatically installs `Oh My Fish`, `Fisher`, `fzf.fish`, `zoxide`, and more.
+- [x] **Terminal Widgets**: Integrates `terminal-widgets` for a more interactive startup.
+- [x] **Safety First**: Includes input validation and variable sanitization.
 
 ## Installation
-##### Run command to install
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/install.sh)"
-```
-##### (Optional, for termux users only)
-This will install the original script by remo773
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/zsh-master/install.sh)" --termux
+
+To install the robust version of T-Header on your Linux desktop:
+
+```bash
+git clone https://github.com/ManiacBoy777/T-Header.git
+cd T-Header
+chmod +x install.sh
+./install.sh
 ```
 
-## Uninstallation
+### For Termux Users
 
-type
+To install the original version optimized for Termux:
+
+```bash
+./install.sh --termux
 ```
-theader-uninstall
-```
-from fish shell or run 
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/uninstall.sh)"
-```
+
+## Usage
+
+- **Change Name**: Run `theader-rename` to update your custom name.
+- **Uninstall**: Run `theader-uninstall` to safely remove the customization.
+- **Aliases**:
+  - `ls`, `l`, `la`, `ll`: Enhanced directory listing (uses `exa` if available).
+  - `cp`, `mv`, `rm`: Safe mode with confirmation prompts.
+  - `cd`: Powered by `zoxide` for smart directory jumping.
+
+## Contributing
+
+Feel free to fork this project and submit pull requests for any improvements or new features!
+
+## Credits
+
+Original script by [remo773](https://github.com/remo7777/T-Header). Refactored and optimized for robustness.

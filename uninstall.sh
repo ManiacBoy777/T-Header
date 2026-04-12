@@ -1,24 +1,55 @@
 #!/bin/bash
-# Define a function that runs a command with sudo if possible and needed
-sudo_if_possible() {
-  # Check if sudo is available
-  if command -v sudo >/dev/null 2>&1; then
-    # Check if the user is not root
-    if [ "$EUID" -ne 0 ]; then
-      # Run the command with sudo
-      sudo "$@"
+# ==============================================================================
+# T-Header: Safe Uninstaller
+# ==============================================================================
+# Removes only the components installed by T-Header, preserving user data.
+# ==============================================================================
+
+set -euo pipefail
+
+# --- Utility Functions ---
+log_info() { echo -e "\e[34m[INFO]\e[0m $1"; }
+log_success() { echo -e "\e[32m[SUCCESS]\e[0m $1"; }
+log_warn() { echo -e "\e[33m[WARN]\e[0m $1"; }
+
+sudo_if_needed() {
+    if [[ "$EUID" -ne 0 ]] && command -v sudo >/dev/null 2>&1; then
+        sudo "$@"
     else
-      # Run the command without sudo
-      "$@"
+        "$@"
     fi
-  else
-    # Run the command without sudo
-    "$@"
-  fi
 }
 
-sudo_if_possible rm -f $HOME/.draw
-sudo_if_possible rm -f $HOME/.draw.sh
-sudo_if_possible rm -f $HOME/.bashrc
-sudo_if_possible rm -f $HOME/.banner.sh
-sudo_if_possible rm -rdf $HOME/.config/fish
+# --- Confirmation ---
+echo "This will remove the T-Header customization."
+read -p "Are you sure you want to proceed? (y/N): " confirm
+if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    log_info "Uninstallation cancelled."
+    exit 0
+fi
+
+# --- Removal ---
+log_info "Removing T-Header components..."
+
+# 1. Remove files in HOME
+rm -f "$HOME/.draw" "$HOME/.draw.sh" "$HOME/.banner.sh"
+
+# 2. Remove Fish configuration (modular files only)
+if [ -f "$HOME/.config/fish/conf.d/t-header-config.fish" ]; then
+    rm -f "$HOME/.config/fish/conf.d/t-header-config.fish"
+fi
+
+# 3. Restore fish_prompt if it was our version
+if [ -f "$HOME/.config/fish/functions/fish_prompt.fish" ]; then
+    if grep -q "┌─\[" "$HOME/.config/fish/functions/fish_prompt.fish"; then
+        log_info "Restoring default fish_prompt..."
+        rm -f "$HOME/.config/fish/functions/fish_prompt.fish"
+    fi
+fi
+
+# 4. Remove system-wide binaries
+sudo_if_needed rm -f /usr/bin/theader-rename /usr/bin/theader-uninstall /usr/share/figlet/ASCII-Shadow.flf
+
+log_success "T-Header components removed."
+log_info "Note: Installed packages (fish, figlet, etc.) were kept. You can remove them manually with 'apt remove' if desired."
+log_info "Please restart your terminal."

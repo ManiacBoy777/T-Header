@@ -1,63 +1,143 @@
 #!/bin/bash
-# Define a function that runs a command with sudo if possible and needed
-sudo_if_possible() {
-  # Check if sudo is available
-  if command -v sudo >/dev/null 2>&1; then
-    # Check if the user is not root
-    if [[ "$EUID" -ne 0 ]]; then
-      # Run the command with sudo
-      sudo "$@"
+# ==============================================================================
+# T-Header: Robust Terminal Customization for Fish Shell
+# ==============================================================================
+# Features:
+# - Custom banner and prompt
+# - Automated dependency installation
+# - Modular Fish shell configuration
+# - Enhanced error handling and safety
+# ==============================================================================
+
+set -euo pipefail
+
+# --- Configuration and Constants ---
+REPO_OWNER="ManiacBoy777"
+REPO_NAME="T-Header"
+BRANCH="fish-master"
+CONFIG_DIR="$HOME/.config/fish"
+CONF_D_DIR="$CONFIG_DIR/conf.d"
+FUNCTIONS_DIR="$CONFIG_DIR/functions"
+ASCII_SHADOW_URL="https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH/ASCII-Shadow.flf"
+
+# --- Utility Functions ---
+
+# Log messages with color
+log_info() { echo -e "\e[34m[INFO]\e[0m $1"; }
+log_success() { echo -e "\e[32m[SUCCESS]\e[0m $1"; }
+log_warn() { echo -e "\e[33m[WARN]\e[0m $1"; }
+log_error() { echo -e "\e[31m[ERROR]\e[0m $1"; exit 1; }
+
+# Run a command with sudo if needed
+sudo_if_needed() {
+    if [[ "$EUID" -ne 0 ]] && command -v sudo >/dev/null 2>&1; then
+        sudo "$@"
     else
-      # Run the command without sudo
-      "$@"
+        "$@"
     fi
-  else
-    # Run the command without sudo
-    "$@"
-  fi
 }
 
-#update 2025 adds option to run original script by remo773
-if [[ "$1" == "--termux" ]]; then
-    echo "\"--termux\" argument passed"
-    echo "Installing original script by remo773"
-    echo "To remove this version follow these steps:"
-    echo "bash ./T-Header/t-header.sh --remove && exit"
-    read -n 1 -s -r -p "Press any key to install or press CTRL-C to cancel installation..."
-    sudo_if_possible apt update
-    sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install git -y
-    git clone https://github.com/remo7777/T-Header.git $HOME/T-Header
-    bash $HOME/T-Header/t-header.sh
-    exit 0
-elif [[ -z "$1"  ]]; then
+# Cleanup on error
+cleanup() {
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        log_warn "An error occurred during installation. Please check the logs."
+    fi
+}
+trap cleanup EXIT
 
-    add_fish_lines() {
-cat > $HOME/.config/fish/config.fish <<-EOF
-# ~/.config/fish/config.fish
-set fish_greeting ''
+# --- Installation Steps ---
 
-#tmux
-# Only start tmux if not already inside tmux
+install_dependencies() {
+    log_info "Updating and installing dependencies..."
+    sudo_if_needed apt update -y
+    
+    local pkgs=(
+        figlet pv binutils coreutils wget curl git fish procps gawk 
+        python3 python3-pip lolcat libncurses5-dev libncursesw5-dev 
+        ruby fzf zoxide tmux
+    )
+    sudo_if_needed apt install "${pkgs[@]}" -y
+    
+    log_info "Installing Ruby and Python gems/packages..."
+    sudo_if_needed gem install lolcat
+    python3 -m pip install terminal-widgets --break-system-packages || log_warn "Failed to install terminal-widgets, skipping..."
+}
+
+setup_fish_environment() {
+    log_info "Setting up Fish shell environment..."
+    mkdir -p "$CONF_D_DIR" "$FUNCTIONS_DIR"
+    
+    # Install Oh My Fish (OMF)
+    if [ ! -d "$HOME/.local/share/omf" ]; then
+        log_info "Installing Oh My Fish..."
+        curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish -c 'source - --noninteractive'
+    fi
+    
+    # Install Fisher
+    if [ ! -f "$FUNCTIONS_DIR/fisher.fish" ]; then
+        log_info "Installing Fisher..."
+        fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
+    fi
+    
+    # Install plugins
+    log_info "Installing Fish plugins..."
+    fish -c 'omf install bira'
+    fish -c 'fisher install patrickf1/fzf.fish ttscoff/fuzzy_cd meaningful-ooo/sponge franciscolourenco/done'
+}
+
+download_assets() {
+    log_info "Downloading assets and configuration files..."
+    
+    sudo_if_needed curl -fsSL "$ASCII_SHADOW_URL" -o /usr/share/figlet/ASCII-Shadow.flf
+    
+    local files=(
+        ".draw:$HOME/.draw"
+        ".banner.sh:$HOME/.banner.sh"
+        "rename.sh:/usr/bin/theader-rename"
+        "uninstall.sh:/usr/bin/theader-uninstall"
+    )
+    
+    for item in "${files[@]}"; do
+        local src="${item%%:*}"
+        local dst="${item##*:}"
+        log_info "Downloading $src to $dst..."
+        sudo_if_needed curl -fsSL "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH/$src" -o "$dst"
+        sudo_if_needed chmod +x "$dst"
+    done
+}
+
+configure_fish_modular() {
+    log_info "Configuring Fish shell (modular approach)..."
+    
+    # 1. Main configuration (aliases, env vars)
+    cat > "$CONF_D_DIR/t-header-config.fish" <<EOF
+# T-Header: Main Configuration
+set -g fish_greeting ''
+
+# Tmux auto-start
 if not set -q TMUX
-    exec tmux
+    if command -v tmux >/dev/null
+        exec tmux
+    end
 end
 
-# --- Name Banner ---
+# Custom Name
 if not set -q TNAME
-    set -Ux TNAME "$PROC"   # replace with your custom name
+    set -Ux TNAME "\$PROC"
 end
 
-# Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
-if test -f $HOME/.banner.sh
-    set cols (tput cols)
-    bash $HOME/.banner.sh \$cols \$TNAME 
+# Banner
+if test -f \$HOME/.banner.sh
+    bash \$HOME/.banner.sh (tput cols) \$TNAME
 end
 
-# terminal-widgets at startup
-python -m twidgets
+# Widgets
+if command -v python3 >/dev/null
+    python3 -m twidgets 2>/dev/null
+end
 
-# --- Aliases ---
+# Aliases
 if type -q exa
     alias l 'exa'
     alias ls 'exa'
@@ -80,139 +160,93 @@ alias ln 'ln -i'
 alias mv 'mv -i'
 alias rm 'rm -i'
 alias cd 'z'
-# Force python -> python3
 alias python '/usr/bin/python3'
 
-# --- Cursor style ---
-# Makes cursor a blinking underline
+# Cursor style
 echo -ne "\e[4 q"
 
-   zoxide init fish | source
-
-
-
+# Zoxide
+if type -q zoxide
+    zoxide init fish | source
+end
 EOF
-}
 
-    add_custom_prompt_lines() {
-cat >> $HOME/.config/fish/functions/fish_prompt.fish <<-'EOF'
-# ~/.config/fish/functions/fish_prompt.fish
+    # 2. Custom Prompt
+    cat > "$FUNCTIONS_DIR/fish_prompt.fish" <<'EOF'
 function fish_prompt
     set_color red
     echo -n "┌─["
-
     set_color blue
     echo -n $TNAME
-
     set_color yellow
     echo -n "@"
-
     set_color cyan
     echo -n (hostname)
-
     set_color red
     echo -n "]─["
-
     set_color green
     echo -n (prompt_pwd)
-
     set_color red
     echo "]"
-
     echo -n "└──╼ "
-
     set_color red --bold
     echo -n "❯"
-
     set_color blue
     echo -n "❯"
-
     set_color brblack
     echo -n "❯ "
-
     set_color normal
 end
-
 EOF
 }
 
-
-
-
-
+name_prompt() {
+    echo
+    local name=""
+    while [[ -z "$name" ]]; do
+        read -p "Enter your custom name for the terminal: " name
+        if [[ -z "$name" ]]; then
+            log_warn "Name cannot be empty. Please try again."
+        fi
+    done
     
-    name_prompt() {
-  echo
-  echo
-  echo
-  read -p 'Enter name: ' PROC
-  fish -c "set -Ux TNAME '$PROC'"
-  fish -c "set -Ux PROC '$TNAME'"
-  echo
-  echo "$PROC will be displayed at the top of every new terminal"
-  echo 
-  echo "This also replaces your username in the PS1 prompt."
-  echo
-  echo "If you'd like to change this:"
-  echo
-  echo "Edit the $HOME/.config/fish/fish.config file and replace the value in quotes at 'TNAME'"
-  sleep 5
-
+    # Sanitize name (basic alphanumeric + spaces/dashes)
+    name=$(echo "$name" | tr -dc '[:alnum:] -')
+    
+    export PROC="$name"
+    fish -c "set -Ux TNAME '$name'"
+    fish -c "set -Ux PROC '$name'"
 }
-    
-    #update & install depends
-    sudo_if_possible apt update -y
-    sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git fish procps gawk python3 python3-pip lolcat libncurses5-dev libncursesw5-dev ruby fzf zoxide tmux -y
-    sudo_if_possible gem install lolcat
-    python3 -m pip install terminal-widgets --break-system-packages
-    fish -c "set -Ux SHELL 'fish' "
-    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish -c 'source - --noninteractive'    
-    #remove existing
-    #sudo_if_possible rm -rdf $HOME/T-Header
 
-    #remove conflict
-    sudo_if_possible rm -rdf /etc/pam.d/chsh
+# --- Main Execution ---
 
-
-    # Install plugins & Theme
-    fish -c 'omf install bira'
-    fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher'
-    fish -c 'fisher install patrickf1/fzf.fish'
-    fish -c 'fisher install ttscoff/fuzzy_cd'
-    fish -c 'fisher install meaningful-ooo/sponge'
-    fish -c 'fisher install franciscolourenco/done'
-    # Download files
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/chsh" -o /etc/pam.d/chsh
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/.draw" -o $HOME/.draw
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/.banner.sh" -o $HOME/.banner.sh
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/rename.sh" -o /usr/bin/theader-rename
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/fish-master/uninstall.sh" -o /usr/bin/theader-uninstall
-    chmod +x /usr/bin/theader-rename
-    chmod +x /usr/bin/theader-uninstall
-
-    #name prompt
-    clear
-    name_prompt
-    clear
-
-    # Add lines to config.fish
-    add_fish_lines
-    # Add lines to fish_prompt
-    add_custom_prompt_lines
-    chsh -s /bin/usr/fish
-    echo Complete!
-    echo
-    echo "Please wait for new terminal session to start"
-    echo
-    echo "The first time might take a second"
-    exec fish
-
-else
-echo ""
-    echo "accepted arguments: --termux"
-    echo "Usage: installs the original script by remo773 made for termux instead of the desktop version"
-    echo ""
-    exit 1
+if [[ "${1:-}" == "--termux" ]]; then
+    log_info "Installing Termux-compatible version (original by remo773)..."
+    sudo_if_needed apt update && sudo_if_needed apt upgrade -y
+    sudo_if_needed apt install git -y
+    git clone https://github.com/remo7777/T-Header.git "$HOME/T-Header-termux"
+    bash "$HOME/T-Header-termux/t-header.sh"
+    exit 0
 fi
+
+# Desktop/Standard Installation
+log_info "Starting T-Header robust installation..."
+
+install_dependencies
+setup_fish_environment
+download_assets
+name_prompt
+configure_fish_modular
+
+# Finalize
+log_info "Setting Fish as default shell (if possible)..."
+if command -v chsh >/dev/null; then
+    sudo_if_needed chsh -s "$(which fish)" "$(whoami)" || log_warn "Could not change default shell. Please run: chsh -s \$(which fish)"
+fi
+
+log_success "T-Header installation complete!"
+echo -e "\nRestart your terminal to enjoy your new setup.\n"
+
+# Prevent exit trap from firing log_error
+trap - EXIT
+exec fish
