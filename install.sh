@@ -1,161 +1,217 @@
 #!/bin/bash
-# Define a function that runs a command with sudo if possible and needed
-sudo_if_possible() {
-  # Check if sudo is available
-  if command -v sudo >/dev/null 2>&1; then
-    # Check if the user is not root
-    if [[ "$EUID" -ne 0 ]]; then
-      # Run the command with sudo
-      sudo "$@"
+# ==============================================================================
+# T-Header: Robust Standalone Installer for Zsh Shell
+# ==============================================================================
+# This script is designed for remote execution:
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/ManiacBoy777/T-Header/zsh-master/install.sh)"
+# ==============================================================================
+
+set -euo pipefail
+
+# --- Configuration and Constants ---
+REPO_OWNER="ManiacBoy777"
+REPO_NAME="T-Header"
+BRANCH="zsh-master"
+BASE_URL="https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$BRANCH"
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+PLUGINS_DIR="$HOME/.zsh_plugins"
+
+# --- Utility Functions ---
+
+log_info() { echo -e "\e[34m[INFO]\e[0m $1"; }
+log_success() { echo -e "\e[32m[SUCCESS]\e[0m $1"; }
+log_warn() { echo -e "\e[33m[WARN]\e[0m $1"; }
+log_error() { echo -e "\e[31m[ERROR]\e[0m $1"; exit 1; }
+
+sudo_if_needed() {
+    if [[ "$EUID" -ne 0 ]] && command -v sudo >/dev/null 2>&1; then
+        sudo "$@"
     else
-      # Run the command without sudo
-      "$@"
+        "$@"
     fi
-  else
-    # Run the command without sudo
-    "$@"
-  fi
 }
 
-#update 2025 adds option to run original script by remo773
-if [[ "$1" == "--termux" ]]; then
-    echo "\"--termux\" argument passed"
-    echo "Installing original script by remo773"
-    echo "To remove this version follow these steps:"
-    echo "bash ./T-Header/t-header.sh --remove && exit"
-    read -n 1 -s -r -p "Press any key to install or press CTRL-C to cancel installation..."
-    sudo_if_possible apt update
-    sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install git -y
-    git clone https://github.com/remo7777/T-Header.git $HOME/T-Header
-    bash $HOME/T-Header/t-header.sh
-    exit 0
-elif [[ -z "$1"  ]]; then
+cleanup() {
+    local exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        log_warn "An error occurred during installation. Please check the logs."
+    fi
+}
+trap cleanup EXIT
 
-    add_zsh_lines() {
-cat >> $HOME/.zshrc <<-EOF
-source $HOME/.plugins/fzf-tab/fzf-tab.plugin.zsh
-source $HOME/.plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.plugins/zsh-autoquoter/zsh-autoquoter.zsh
-ZAQ_PREFIXES=('git commit( [^ ]##)# -[^ -]#m' 'ssh( -[^ ]##)# [^ -][^ ]#')
-tput cnorm
-clear
-## terminal banner
-#$HOME/T-Header/ASCII-Shadow.flf "$PROC" | lolcat;
-echo
-## cursor
-printf '\e[4 q'
-## prompt
-TNAME="$PROC"
-setopt prompt_subst
+# --- Installation Steps ---
 
-PROMPT=$'
-%{\e[0;31m%}┌─[%{\e[1;34m%}%B%{\${TNAME}%}%{\e[1;33m%}@%{\e[1;36m%}$HOSTNAME%b%{\e[0;31m%}]─[%{\e[0;32m%}%(4~|/%2~|%~)%{\e[0;31m%}]%b
-%{\e[0;31m%}└──╼ %{\e[1;31m%}%B❯%{\e[1;34m%}❯%{\e[1;90m%}❯%{\e[0m%}%b '
+install_dependencies() {
+    log_info "Updating and installing dependencies..."
+    sudo_if_needed apt update -y
+    
+    local pkgs=(
+        figlet pv binutils coreutils wget curl git zsh procps gawk 
+        python3 python3-pip lolcat libncurses5-dev libncursesw5-dev 
+        ruby fzf tmux
+    )
+    sudo_if_needed apt install "${pkgs[@]}" -y
+    
+    log_info "Installing Ruby and Python gems/packages..."
+    sudo_if_needed gem install lolcat
+    python3 -m pip install terminal-widgets --break-system-packages || log_warn "Failed to install terminal-widgets, skipping..."
+}
 
-## Replace 'ls' with 'exa' (if available) + some aliases.
-if [ -n "\$(command -v exa)" ]; then
-      alias l='exa'
-      alias ls='exa'
-      alias l.='exa -d .*'
-      alias la='exa -a'
-      alias ll='exa -Fhl'
-      alias ll.='exa -Fhl -d .*'
-else
-      alias l='ls --color=auto'
-      alias ls='ls --color=auto'
-      alias l.='ls --color=auto -d .*'
-      alias la='ls --color=auto -a'
-      alias ll='ls --color=auto -Fhl'
-      alias ll.='ls --color=auto -Fhl -d .*'
+setup_zsh_environment() {
+    log_info "Setting up Zsh environment..."
+    
+    # Install Oh My Zsh
+    if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        log_info "Installing Oh My Zsh..."
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    fi
+    
+    # Setup plugins directory
+    mkdir -p "$PLUGINS_DIR"
+    
+    local plugins=(
+        "zsh-users/zsh-autosuggestions"
+        "zsh-users/zsh-syntax-highlighting"
+        "Aloxaf/fzf-tab"
+        "ianthehenry/zsh-autoquoter"
+    )
+    
+    for plugin in "${plugins[@]}"; do
+        local name="${plugin##*/}"
+        if [ ! -d "$PLUGINS_DIR/$name" ]; then
+            log_info "Installing plugin: $name..."
+            git clone "https://github.com/$plugin.git" "$PLUGINS_DIR/$name"
+        fi
+    done
+}
+
+download_assets() {
+    log_info "Downloading assets and configuration files from GitHub..."
+    
+    sudo_if_needed curl -fsSL "$BASE_URL/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
+    
+    local files=(
+        ".draw:$HOME/.draw"
+        ".banner.sh:$HOME/.banner.sh"
+        "rename.sh:/usr/bin/theader-rename"
+        "uninstall.sh:/usr/bin/theader-uninstall"
+    )
+    
+    for item in "${files[@]}"; do
+        local src="${item%%:*}"
+        local dst="${item##*:}"
+        log_info "Downloading $src to $dst..."
+        sudo_if_needed curl -fsSL "$BASE_URL/$src" -o "$dst"
+        sudo_if_needed chmod +x "$dst"
+    done
+}
+
+configure_zsh_modular() {
+    log_info "Configuring Zsh shell..."
+    
+    # Create a custom zsh configuration file
+    cat > "$HOME/.zshrc_t_header" <<EOF
+# T-Header: Zsh Configuration
+
+# --- Plugins ---
+source $PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $PLUGINS_DIR/fzf-tab/fzf-tab.plugin.zsh
+source $PLUGINS_DIR/zsh-autoquoter/zsh-autoquoter.zsh
+
+# --- Banner & Widgets ---
+if [ -f "\$HOME/.banner.sh" ]; then
+    bash "\$HOME/.banner.sh" "\$(tput cols)" "\$TNAME"
 fi
 
+if command -v python3 >/dev/null; then
+    python3 -m twidgets 2>/dev/null
+fi
 
-## Safety.
+# --- Aliases ---
+if command -v exa >/dev/null; then
+    alias l='exa'
+    alias ls='exa'
+    alias l.='exa -d .*'
+    alias la='exa -a'
+    alias ll='exa -Fhl'
+    alias ll.='exa -Fhl -d .*'
+else
+    alias l='ls --color=auto'
+    alias ls='ls --color=auto'
+    alias l.='ls --color=auto -d .*'
+    alias la='ls --color=auto -a'
+    alias ll='ls --color=auto -Fhl'
+    alias ll.='ls --color=auto -Fhl -d .*'
+fi
+
 alias cp='cp -i'
 alias ln='ln -i'
 alias mv='mv -i'
 alias rm='rm -i'
-
-
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=39'
-ZSH_HIGHLIGHT_STYLES[comment]=fg=226,bold
-ZSH_HIGHLIGHT_HIGHLIGHTERS+=(zaq)
-cols=\$(tput cols)
-bash $HOME/.banner.sh \${cols} \${TNAME}
-neofetch
 alias python='/usr/bin/python3'
 
+# --- Prompt ---
+# Multi-line prompt matching the Fish version
+PROMPT='
+%F{red}┌─[%F{blue}\$TNAME%F{yellow}@%F{cyan}%m%F{red}]─[%F{green}%~%F{red}]
+%F{red}└──╼ %F{red}%B❯%F{blue}❯%F{black}❯ %f%b'
+
+# --- Cursor ---
+printf '\e[4 q'
+
+# --- Tmux ---
+if [ -z "\$TMUX" ] && command -v tmux >/dev/null; then
+    exec tmux
+fi
 EOF
+
+    # Ensure .zshrc sources our custom config
+    if ! grep -q "source \$HOME/.zshrc_t_header" "$HOME/.zshrc"; then
+        echo -e "\n# T-Header Integration\nexport TNAME=\"\$PROC\"\nsource \$HOME/.zshrc_t_header" >> "$HOME/.zshrc"
+    fi
 }
-    
-    name_prompt() {
-  echo
-  echo
-  echo
-  read -p "Enter name: " PROC
-  echo
-  echo "'$PROC' will be displayed at the top of every new terminal"
-  echo 
-  echo "This also replaces your username in the PS1 prompt."
-  echo
-  echo "If you'd like to change this:"
-  echo
-  echo "Edit the $HOME/.zshrc file and replace the value in quotes at 'TNAME'"
 
+name_prompt() {
+    echo
+    local name=""
+    while [[ -z "$name" ]]; do
+        read -p "Enter your custom name for the terminal: " name
+        if [[ -z "$name" ]]; then
+            log_warn "Name cannot be empty. Please try again."
+        fi
+    done
+    
+    name=$(echo "$name" | tr -dc '[:alnum:] -')
+    export PROC="$name"
 }
-    
-    #update & install depends
-    sudo_if_possible apt update -y
-    sudo_if_possible apt upgrade -y
-    sudo_if_possible apt install figlet pv binutils coreutils wget curl git zsh procps gawk neofetch python3 lolcat libncurses5-dev libncursesw5-dev ruby fzf -y
-    sudo_if_possible gem install lolcat
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    
-    #remove existing
-    #sudo_if_possible rm -rdf $HOME/T-Header
 
-    #remove conflict
-    sudo_if_possible rm -rdf /etc/pam.d/chsh
+# --- Main Execution ---
 
-
-    #git clone zsh plugins
-    sudo_if_possible git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.plugins/zsh-autosuggestions
-    sudo_if_possible git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.plugins/zsh-syntax-highlighting
-    sudo_if_possible git clone https://github.com/Aloxaf/fzf-tab.git $HOME/.plugins/fzf-tab
-    sudo_if_possible git clone https://github.com/ianthehenry/zsh-autoquoter.git $HOME/.plugins/zsh-autoquoter
-    #download files
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/ASCII-Shadow.flf" -o /usr/share/figlet/ASCII-Shadow.flf
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/chsh" -o /etc/pam.d/chsh
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.draw" -o $HOME/.draw
-    #sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.bashrc" -o $HOME/.bashrc
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/.banner.sh" -o $HOME/.banner.sh
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/rename.sh" -o /usr/bin/theader-rename
-    sudo_if_possible curl -fsSL "https://raw.githubusercontent.com/ManiacBoy777/T-Header/master/uninstall.sh" -o /usr/bin/theader-uninstall
-    chmod +x /usr/bin/theader-rename
-    chmod +x /usr/bin/theader-uninstall
-
-    #name prompt
-    name_prompt
-    clear
-
-    #add lines to .zshrc
-    add_zsh_lines
-
-    echo Complete!
-    echo
-    echo "Please wait for new terminal session to start"
-    echo
-    echo "The first time might take a second"
-    zsh
-
-else
-echo ""
-    echo "accepted arguments: --termux"
-    echo "Usage: installs the original script by remo773 made for termux instead of the desktop version"
-    echo ""
-    exit 1
+if [[ "${1:-}" == "--termux" ]]; then
+    log_info "Installing Termux-compatible version (original by remo773)..."
+    sudo_if_needed apt update && sudo_if_needed apt upgrade -y
+    sudo_if_needed apt install git -y
+    git clone https://github.com/remo7777/T-Header.git "$HOME/T-Header-termux"
+    bash "$HOME/T-Header-termux/t-header.sh"
+    exit 0
 fi
 
+log_info "Starting T-Header robust Zsh standalone installation..."
 
+install_dependencies
+setup_zsh_environment
+download_assets
+name_prompt
+configure_zsh_modular
+
+log_info "Setting Zsh as default shell (if possible)..."
+if command -v chsh >/dev/null; then
+    sudo_if_needed chsh -s "$(which zsh)" "$(whoami)" || log_warn "Could not change default shell."
+fi
+
+log_success "T-Header Zsh installation complete!"
+echo -e "\nRestart your terminal to enjoy your new setup.\n"
+
+trap - EXIT
+exec zsh
