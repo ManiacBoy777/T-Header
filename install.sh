@@ -109,32 +109,39 @@ configure_fish_modular() {
     
     # 1. Main configuration (aliases, env vars)
     cat > "$CONF_D_DIR/t-header-config.fish" <<EOF
-# T-Header: Main Configuration
-set -g fish_greeting ''
-
-# Tmux auto-start
-if not set -q TMUX
-    if command -v tmux >/dev/null
-        exec tmux
-    end
+# ~/.config/fish/config.fish
+if not status is-interactive
+    exit
 end
 
-# Custom Name
+set fish_greeting ''
+# --- Name Banner ---
 if not set -q TNAME
-    set -Ux TNAME "\$PROC"
+    set -gx TNAME "DedSec"   # replace with your custom name
 end
 
-# Banner
-if test -f \$HOME/.banner.sh
-    bash \$HOME/.banner.sh (tput cols) \$TNAME
+# Show banner (Fish runs scripts differently; this uses your existing banner.sh if available)
+#if test -f $HOME/.banner.sh
+#    set cols (tput cols)
+#    bash $HOME/.banner.sh $cols $TNAME
+#end
+
+# Neofetch/terminal-widgets at startup
+if status is-interactive
+    and not set -q SSH_TTY
+    and type -q twidgets
+
+    twidgets \
+        --row-gap 1 \
+        --column-gap 1 \
+        --column 1 \
+        --row 0 \
+        --direction row \
+        --margin 0 \
+        --no-badge
 end
 
-# Widgets
-if command -v python3 >/dev/null
-    python3 -m twidgets 2>/dev/null
-end
-
-# Aliases
+# --- Aliases ---
 if type -q exa
     alias l 'exa'
     alias ls 'exa'
@@ -156,15 +163,25 @@ alias cp 'cp -i'
 alias ln 'ln -i'
 alias mv 'mv -i'
 alias rm 'rm -i'
+
+# use zoxide instead of cd
 alias cd 'z'
+
+# Force python -> python3
 alias python '/usr/bin/python3'
 
-# Cursor style
+# --- Cursor style ---
+# Makes cursor a blinking underline
 echo -ne "\e[4 q"
 
-# Zoxide
-if type -q zoxide
+if status is-interactive
+    and not set -q SSH_TTY
     zoxide init fish | source
+end
+
+# uv
+if status is-interactive
+    fish_add_path "/data/data/com.termux/files/home/.local/bin"
 end
 EOF
 
